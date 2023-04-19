@@ -1,0 +1,4 @@
+NAME
+  OGS::OGSSelectCoast
+DEPENDS
+  VTK::FiltersCore

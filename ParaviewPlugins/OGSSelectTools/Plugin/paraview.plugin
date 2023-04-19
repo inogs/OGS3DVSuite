@@ -1,0 +1,11 @@
+NAME
+  OGSSelectToolsPlugin
+DESCRIPTION
+  Cut the OGSReader's grid to remove the land or to select a specific basin or feature
+REQUIRES_MODULES
+  OGSSelectBasin
+  OGSSelectCoast
+  OGSSelectLand
+  OGSSelectOkuboWeiss
+  OGSSelectPolygon
+  OGSSelectTimePeriod

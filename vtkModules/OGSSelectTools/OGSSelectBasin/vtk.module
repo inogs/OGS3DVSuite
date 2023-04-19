@@ -1,0 +1,4 @@
+NAME
+  OGS::OGSSelectBasin
+DEPENDS
+  VTK::FiltersCore

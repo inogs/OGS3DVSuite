@@ -1,0 +1,4 @@
+NAME
+  OGS::OGSSelectPolygon
+DEPENDS
+  VTK::FiltersCore

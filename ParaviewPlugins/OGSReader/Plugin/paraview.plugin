@@ -1,0 +1,6 @@
+NAME
+  OGSReaderPlugin
+DESCRIPTION
+  Read an OGS file into a structured grid
+REQUIRES_MODULES
+  OGSReader

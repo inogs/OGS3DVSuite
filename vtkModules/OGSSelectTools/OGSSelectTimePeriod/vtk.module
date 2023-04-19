@@ -1,0 +1,5 @@
+NAME
+  OGS::OGSSelectTimePeriod
+DEPENDS
+  VTK::FiltersGeneric
+  VTK::CommonExecutionModel
