@@ -928,6 +928,18 @@ void Simulation::load_mesh(unsigned int mesh_index) {
 
 
 
+std::optional<std::pair<VAR_TYPE, unsigned int>> Simulation::get_var_indices(
+    const std::string &var_name) const {
+  for (const auto i : AllVarTypes) {
+    const unsigned int n_vars = this->var_n(i);
+    for (unsigned int j = 0; j < n_vars; ++j)
+      if (this->var_name(i, j) == var_name) return {{i, j}};
+  }
+  return {};
+}
+
+
+
 std::string Simulation::var_path(const VAR_TYPE vrt, const unsigned int jj,
                                  const unsigned int t) const {
   // First of all, we need to replace the "*" in the path with the

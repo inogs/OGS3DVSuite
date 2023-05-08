@@ -1,0 +1,6 @@
+NAME
+  OGSAnnotateDateTimePlugin
+DESCRIPTION
+  Add the current datetime over the rendered view
+REQUIRES_MODULES
+  OGSAnnotateDateTime

@@ -1,0 +1,5 @@
+NAME
+  OGS::OGSSpaghetti
+DEPENDS
+  VTK::CommonDataModel
+  VTK::CommonExecutionModel

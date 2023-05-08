@@ -1,8 +1,6 @@
 include(GNUInstallDirs)
 set(BUILD_SHARED_LIBS ON)
 
-find_package(ParaView REQUIRED)
-
 paraview_plugin_scan(
   PLUGIN_FILES "${CMAKE_CURRENT_SOURCE_DIR}/Plugin/paraview.plugin"
   PROVIDES_PLUGINS plugins

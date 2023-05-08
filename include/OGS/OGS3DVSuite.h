@@ -22,6 +22,7 @@
 #include <cstdint>
 #include <iostream>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -553,6 +554,9 @@ class Simulation {
                                              unsigned int jj) const {
     return this->_vars[vrt].get_vname(jj);
   };
+
+  [[nodiscard]] std::optional<std::pair<VAR_TYPE, unsigned int>> get_var_indices(
+      const std::string &var_name) const;
 
   // Return the path of the file that contains the data for the t timestep of
   // the jj variable of type vrt

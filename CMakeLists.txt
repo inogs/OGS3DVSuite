@@ -30,8 +30,7 @@ add_library(OGS3DVSuite SHARED
 		sources/netcdfio.cpp
 		sources/fieldOperations.cpp
 		sources/vtkFields.cpp
-		sources/vtkOperations.cpp
-		)
+		sources/vtkOperations.cpp)
 
 set_target_properties(OGS3DVSuite PROPERTIES
 		CXX_STANDARD 17
@@ -43,7 +42,7 @@ set_target_properties(OGS3DVSuite PROPERTIES
 option(WITH_TESTS "Compile the tests for the library" OFF)
 option(WITH_VTK_MODULES "Compile the VTK modules (needed for the Paraview plugins)" ON)
 option(WITH_VTK_PYTHON_MODULES "Compile python wrapper for the VTK modules" OFF)
-option(WITH_PARAVIEW_PLUGINS "Transform the VTK modules into ParaView plugins" OFF)
+option(WITH_PARAVIEW_PLUGINS "Transform the VTK modules into ParaView plugins" ON)
 
 if (WITH_VTK_PYTHON_MODULES)
 	if (NOT WITH_VTK_MODULES)
@@ -69,6 +68,12 @@ message (STATUS "Checking for NetCDF library. If this search fails, "
 find_package (NetCDF REQUIRED)
 
 find_package(OpenMP REQUIRED)
+
+if (WITH_PARAVIEW_PLUGINS)
+	find_package(ParaView REQUIRED)
+	add_compile_definitions(WITH_PARAVIEW)
+endif()
+
 find_package(VTK REQUIRED)
 
 if (WITH_TESTS)
@@ -84,7 +89,6 @@ endif()
 if (WITH_TESTS)
 	add_subdirectory("tests")
 endif()
-
 
 # Add Vtk Modules
 if (WITH_VTK_MODULES)
@@ -148,6 +152,7 @@ set(PUBLIC_HEADER_LIST
 		"include/OGS/geometry.h"
 		"include/OGS/macros.h"
 		"include/OGS/netcdfio.h"
+		"include/OGS/ParaviewImports.h"
 		"include/OGS/projection.h"
 		"include/OGS/Season.h"
 		"include/OGS/TimeInterval.h"
@@ -184,6 +189,10 @@ if(WITH_VTK_MODULES)
 	SET(_targets ${_targets} OGSSelectOkuboWeiss)
 	SET(_targets ${_targets} OGSSelectPolygon)
 	SET(_targets ${_targets} OGSSelectTimePeriod)
+	if(WITH_PARAVIEW_PLUGINS)
+		SET(_targets ${_targets} OGSAnnotateDateTime)
+	endif()
+	SET(_targets ${_targets} OGSSpaghetti)
 endif()
 
 install(TARGETS ${_targets}

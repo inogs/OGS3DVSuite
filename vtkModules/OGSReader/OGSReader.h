@@ -16,13 +16,13 @@
 #ifndef OGSReader_h
 #define OGSReader_h
 
-#include <string>
-#include <vtkStructuredGridAlgorithm.h>
 #include <vtkRectilinearGridAlgorithm.h>
+#include <vtkStructuredGridAlgorithm.h>
+
+#include <string>
 
 #include "OGS/OGS3DVSuite.h"
 #include "vtkDataSet.h"
-
 #include "vtkStreamingDemandDrivenPipeline.h"
 
 class vtkDataArraySelection;
@@ -32,8 +32,8 @@ class vtkStringArray;
 
 typedef vtkStructuredGridAlgorithm AlgorithmType;
 typedef vtkStructuredGrid MeshType;
-//typedef vtkRectilinearGridAlgorithm AlgorithmType;
-//typedef vtkRectilinearGrid MeshType;
+// typedef vtkRectilinearGridAlgorithm AlgorithmType;
+// typedef vtkRectilinearGrid MeshType;
 
 
 // Filter class
