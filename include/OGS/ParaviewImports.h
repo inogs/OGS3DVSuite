@@ -19,6 +19,6 @@ All rights reserved.
 #ifndef OGS3DVSUITE_PARAVIEWIMPORTS_H
 #define OGS3DVSUITE_PARAVIEWIMPORTS_H
 #ifdef WITH_PARAVIEW
-  #include "vtkPVVersion.h"  // For PARAVIEW_USE_MPI
-#endif // WITH_PARAVIEW
-#endif  // OGS3DVSUITE_PARAVIEWIMPORTS_H
+#include "vtkPVVersion.h"  // For PARAVIEW_USE_MPI
+#endif                     // WITH_PARAVIEW
+#endif                     // OGS3DVSUITE_PARAVIEWIMPORTS_H

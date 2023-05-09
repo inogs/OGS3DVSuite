@@ -198,7 +198,7 @@ class V3v {
   inline void clear();
   inline V3 *data();
 
-  template <typename T=double>
+  template <typename T = double>
   T *toarray() const;
 
   inline bool isempty();

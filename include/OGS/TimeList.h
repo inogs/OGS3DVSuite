@@ -96,9 +96,9 @@ class TimeList {
   // Implementation not needed
   //			inline TimeList(const TimeInterval *TL, const char
   //*inputdir,
-  // const char *searchstring, 				const char *filtervar="None", const
-  // char *prefix="ave.", const char *dateformat="%Y%m%d-%H:%M:%S",
-  //const int hour=12, const char *forceFrequency="None");
+  // const char *searchstring, 				const char *filtervar="None",
+  // const char *prefix="ave.", const char *dateformat="%Y%m%d-%H:%M:%S",
+  // const int hour=12, const char *forceFrequency="None");
 
   inline int len() const { return nTimes; }
   inline TimeObjectList list() const { return TOL; }

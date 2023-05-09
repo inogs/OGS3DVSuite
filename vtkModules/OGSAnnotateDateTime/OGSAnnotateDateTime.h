@@ -18,7 +18,8 @@
 #include "vtkTimeToTextConvertor.h"
 
 
-class VTK_EXPORT OGSAnnotateDateTime : public vtkTimeToTextConvertor {
+class VTKPVVTKEXTENSIONSFILTERSGENERAL_EXPORT OGSAnnotateDateTime
+    : public vtkTimeToTextConvertor {
  public:
   static OGSAnnotateDateTime* New();
   vtkTypeMacro(OGSAnnotateDateTime, vtkTimeToTextConvertor);

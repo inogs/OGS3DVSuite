@@ -555,8 +555,8 @@ class Simulation {
     return this->_vars[vrt].get_vname(jj);
   };
 
-  [[nodiscard]] std::optional<std::pair<VAR_TYPE, unsigned int>> get_var_indices(
-      const std::string &var_name) const;
+  [[nodiscard]] std::optional<std::pair<VAR_TYPE, unsigned int>>
+  get_var_indices(const std::string &var_name) const;
 
   // Return the path of the file that contains the data for the t timestep of
   // the jj variable of type vrt

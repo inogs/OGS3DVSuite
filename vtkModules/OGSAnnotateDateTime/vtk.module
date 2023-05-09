@@ -1,5 +1,4 @@
 NAME
   OGS::OGSAnnotateDateTime
 DEPENDS
-  VTK::CommonDataModel
-  VTK::CommonExecutionModel
+  ParaView::VTKExtensionsFiltersGeneral

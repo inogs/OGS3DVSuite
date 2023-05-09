@@ -14,10 +14,11 @@
 
 =========================================================================*/
 
+#include <netcdf.h>
+
 #include <cstdio>
 #include <cstring>
 #include <filesystem>
-#include <netcdf>
 #include <sstream>
 #include <string>
 #include <vector>

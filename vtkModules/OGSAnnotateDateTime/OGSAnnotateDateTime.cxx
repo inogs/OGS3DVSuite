@@ -26,22 +26,20 @@
 
 vtkStandardNewMacro(OGSAnnotateDateTime)
 
-//----------------------------------------------------------------------------
-OGSAnnotateDateTime::OGSAnnotateDateTime() {
+    //----------------------------------------------------------------------------
+    OGSAnnotateDateTime::OGSAnnotateDateTime() {
   this->TimeFormat = nullptr;
   this->useMetadata = 0;
   this->procId = 0;
 }
 
 //----------------------------------------------------------------------------
-OGSAnnotateDateTime::~OGSAnnotateDateTime() {
-  this->TimeFormat = nullptr;
-}
+OGSAnnotateDateTime::~OGSAnnotateDateTime() { this->TimeFormat = nullptr; }
 
 //----------------------------------------------------------------------------
 int OGSAnnotateDateTime::RequestData(vtkInformation* request,
-                                        vtkInformationVector** inputVector,
-                                        vtkInformationVector* outputVector) {
+                                     vtkInformationVector** inputVector,
+                                     vtkInformationVector* outputVector) {
   // Recover the Date string
   vtkInformation* inInfo = inputVector[0]->GetInformationObject(0);
 
