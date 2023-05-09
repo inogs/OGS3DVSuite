@@ -1,9 +1,9 @@
 paraview_add_plugin(OGSReaderPlugin
-  VERSION "1.0"
-  REQUIRED_ON_SERVER
-  SERVER_MANAGER_XML OGSReader.xml
-  MODULES OGS::OGSReader
-)
+        VERSION "1.0"
+        REQUIRED_ON_SERVER
+        SERVER_MANAGER_XML OGSReader.xml
+        MODULES OGS::OGSReader
+        )
 
 
 target_link_libraries(OGSReaderPlugin PRIVATE OGS::OGS3DVSuite OGS::OGSReader)

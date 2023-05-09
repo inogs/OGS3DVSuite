@@ -23,11 +23,11 @@
 class vtkDataArraySelection;
 
 #ifdef PARAVIEW_USE_MPI
-  class vtkMultiProcessController;
+class vtkMultiProcessController;
 #endif
 
 class VTKFILTERSCORE_EXPORT OGSSelectCoast : public vtkThreshold {
-public:
+ public:
   static OGSSelectCoast* New();
   vtkTypeMacro(OGSSelectCoast, vtkThreshold);
 
@@ -43,38 +43,38 @@ public:
   // Description:
   // The following methods allow selective selection of the basins.
   int GetNumberOfCoastsArrays();
-  const char * GetCoastsArrayName(int index);
+  const char* GetCoastsArrayName(int index);
   int GetCoastsArrayIndex(const char* name);
-  int GetCoastsArrayStatus(const char *name);
+  int GetCoastsArrayStatus(const char* name);
   void SetCoastsArrayStatus(const char* name, int status);
   void DisableAllCoastsArrays();
   void EnableAllCoastsArrays();
 
-  #ifdef PARAVIEW_USE_MPI
-    // Description:
-    // Set the controller use in compositing (set to
-    // the global controller by default)
-    // If not using the default, this must be called before any
-    // other methods.
-    virtual void SetController(vtkMultiProcessController* controller);
-  #endif
+#ifdef PARAVIEW_USE_MPI
+  // Description:
+  // Set the controller use in compositing (set to
+  // the global controller by default)
+  // If not using the default, this must be called before any
+  // other methods.
+  virtual void SetController(vtkMultiProcessController* controller);
+#endif
 
-protected:
- OGSSelectCoast();
+ protected:
+  OGSSelectCoast();
   ~OGSSelectCoast() override;
 
-  int RequestData(vtkInformation *, vtkInformationVector **, vtkInformationVector *) override;
+  int RequestData(vtkInformation*, vtkInformationVector**,
+                  vtkInformationVector*) override;
 
   vtkDataArraySelection* CoastsDataArraySelection;
 
-  #ifdef PARAVIEW_USE_MPI
-    vtkMultiProcessController* Controller;
-  #endif
+#ifdef PARAVIEW_USE_MPI
+  vtkMultiProcessController* Controller;
+#endif
 
-private:
-
+ private:
   int procId, nProcs;
-  const char *mask_field;
+  const char* mask_field;
 };
 
 #endif

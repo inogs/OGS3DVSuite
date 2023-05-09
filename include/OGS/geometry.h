@@ -21,7 +21,7 @@ namespace OGS::Geom {
 template <class T>
 class Vector;  // Class describing a vector
 template <class T>
-class Ball;  // Ball bounding box
+class Ball;    // Ball bounding box
 template <class T>
 class Polygon;
 
@@ -493,7 +493,7 @@ inline int Polygon<T>::cn_PinPoly(const Point<T> &P) const {
   // Loop through all edges of the Polygon
   for (int ii = 0; ii < this->points.size(); ++ii) {
     if (((this->points[ii][1] <= P[1]) &&
-         (this->points[ii + 1][1] > P[1]))  // an upward crossing
+         (this->points[ii + 1][1] > P[1]))         // an upward crossing
         || ((this->points[ii][1] > P[1]) &&
             (this->points[ii + 1][1] <= P[1]))) {  // a downward crossing
 
@@ -532,17 +532,17 @@ inline int Polygon<T>::wn_PinPoly(const Point<T> &P) const {
 
   // Loop through all edges of the polygon
   for (int ii = 0; ii < this->points.size();
-       ++ii) {                             // edge from V[i] to  V[i+1]
-    if (this->points[ii][1] <= P[1]) {     // start y <= P.y
-      if (this->points[ii + 1][1] > P[1])  // an upward crossing
+       ++ii) {                              // edge from V[i] to  V[i+1]
+    if (this->points[ii][1] <= P[1]) {      // start y <= P.y
+      if (this->points[ii + 1][1] > P[1])   // an upward crossing
         if (P.isLeft(this->points[ii], this->points[ii + 1]) >
             0)                              // P left of  edge
           ++wn;                             // have  a valid up intersect
     } else {                                // start y > P.y (no test needed)
       if (this->points[ii + 1][1] <= P[1])  // a downward crossing
         if (P.isLeft(this->points[ii], this->points[ii + 1]) <
-            0)   // P left of  edge
-          --wn;  // have  a valid down intersect
+            0)                              // P left of  edge
+          --wn;                             // have  a valid down intersect
     }
   }
   return wn;

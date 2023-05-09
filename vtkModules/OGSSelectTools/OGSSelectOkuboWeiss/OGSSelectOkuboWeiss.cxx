@@ -32,14 +32,13 @@ vtkCxxSetObjectMacro(OGSSelectOkuboWeiss, Controller,
 #endif
 
 vtkStandardNewMacro(OGSSelectOkuboWeiss)
-
 //----------------------------------------------------------------------------
 #include "OGS/field.h"
 #include "OGS/macros.h"
 #include "OGS/vtkFields.h"
 
-//----------------------------------------------------------------------------
-OGSSelectOkuboWeiss::OGSSelectOkuboWeiss() {
+    //----------------------------------------------------------------------------
+    OGSSelectOkuboWeiss::OGSSelectOkuboWeiss() {
   // Add the sub basins into the array
   this->OWDataArraySelection = vtkDataArraySelection::New();
   this->OWDataArraySelection->AddArray("Vorticity dominated");

@@ -7,11 +7,11 @@ set(REQUIRED_MODULES
         OGS::OGSSelectTimePeriod)
 
 paraview_add_plugin(OGSSelectToolsPlugin
-  VERSION "1.0"
-  REQUIRED_ON_SERVER
-  SERVER_MANAGER_XML OGSSelectTools.xml
-  MODULES ${REQUIRED_MODULES}
-)
+        VERSION "1.0"
+        REQUIRED_ON_SERVER
+        SERVER_MANAGER_XML OGSSelectTools.xml
+        MODULES ${REQUIRED_MODULES}
+        )
 
 
 target_link_libraries(OGSSelectToolsPlugin PUBLIC OGS::OGS3DVSuite ${REQUIRED_MODULES})

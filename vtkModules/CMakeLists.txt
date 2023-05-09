@@ -2,7 +2,7 @@ set(_rejected_modules "")
 
 if (NOT WITH_PARAVIEW_PLUGINS)
     set(_reject_modules ${_reject_modules} "OGS::OGSAnnotateDateTime")
-endif()
+endif ()
 
 vtk_module_find_modules(module_files ${CMAKE_CURRENT_SOURCE_DIR})
 vtk_module_scan(
@@ -20,12 +20,12 @@ vtk_module_build(MODULES ${OGSModules} BUILD_WITH_KITS OFF ENABLE_WRAPPING ON)
 if (WITH_VTK_PYTHON_MODULES)
     vtk_module_python_default_destination(python_destination)
     vtk_module_wrap_python(MODULES ${OGSModules}
-            TARGET          OGS::OGS3DVSuitePythonModules
+            TARGET OGS::OGS3DVSuitePythonModules
             WRAPPED_MODULES wrapped
-            PYTHON_PACKAGE  "vtkOGS"
-            MODULE_DESTINATION  "${python_destination}"
-            CMAKE_DESTINATION   "${CMAKE_INSTALL_LIBDIR}/cmake/"
+            PYTHON_PACKAGE "vtkOGS"
+            MODULE_DESTINATION "${python_destination}"
+            CMAKE_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/"
             LIBRARY_DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-            BUILD_STATIC    OFF
+            BUILD_STATIC OFF
             INSTALL_HEADERS OFF)
-endif()
+endif ()

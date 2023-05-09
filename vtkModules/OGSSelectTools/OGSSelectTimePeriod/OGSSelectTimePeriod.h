@@ -62,8 +62,8 @@ class VTKCOMMONEXECUTIONMODEL_EXPORT OGSSelectTimePeriod
 #endif
 
  private:
-  OGS::Time::TimeInterval TI;  // TimeInterval for the generic requestor
-  OGS::Time::TimeList TL;      // TimeList containing all the instants
+  OGS::Time::TimeInterval TI;   // TimeInterval for the generic requestor
+  OGS::Time::TimeList TL;       // TimeList containing all the instants
 
   std::vector<int> instants;    // Instant ID to loop
   std::vector<double> weights;  // Weights for the instants

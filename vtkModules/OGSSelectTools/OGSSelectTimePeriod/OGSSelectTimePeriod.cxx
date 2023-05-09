@@ -33,8 +33,8 @@ vtkStandardNewMacro(OGSSelectTimePeriod)
 
 #ifdef PARAVIEW_USE_MPI
 #include "vtkMultiProcessController.h"
-vtkCxxSetObjectMacro(vtkOGSSelectTimePeriod, Controller,
-                     vtkMultiProcessController);
+    vtkCxxSetObjectMacro(vtkOGSSelectTimePeriod, Controller,
+                         vtkMultiProcessController);
 #endif
 
 //----------------------------------------------------------------------------

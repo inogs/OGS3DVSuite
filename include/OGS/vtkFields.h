@@ -42,8 +42,8 @@ namespace VTK {
 */
 template <class ARRAY, class P>
 ARRAY *createVTKfromField(const char *name, const OGS::field::Field<P> &f) {
-    const unsigned int n_of_components = f.get_m();
-    const unsigned int n_of_tuples = f.get_n();
+  const unsigned int n_of_components = f.get_m();
+  const unsigned int n_of_tuples = f.get_n();
 
   // Create VTK array
   ARRAY *vtkArray = ARRAY::New();
@@ -152,7 +152,8 @@ ARRAY *createVTKscaf(const char *name, int nx, int ny, int nz, P *array) {
 
 */
 vtkStringArray *createVTKstrf(const char *name, unsigned int n);
-vtkStringArray *createVTKstrf(const char *name, unsigned int n, const char *data);
+vtkStringArray *createVTKstrf(const char *name, unsigned int n,
+                              const char *data);
 
 
 /* CREATERECTILINEARGRID

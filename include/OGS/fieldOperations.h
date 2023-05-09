@@ -49,9 +49,9 @@ inline void UVW2T_ijk(unsigned int ii, unsigned int jj, unsigned int kk,
     w1 = e2[PNTIND(ii - 1, jj, kk, nx, ny)][1] *
          e3[PNTIND(ii - 1, jj, kk, nx, ny)][1];  // (e2u*e3u)_(i-1)
     w2 = e2[PNTIND(ii, jj, kk, nx, ny)][1] *
-         e3[PNTIND(ii, jj, kk, nx, ny)][1];  // (e2u*e3u)_i
+         e3[PNTIND(ii, jj, kk, nx, ny)][1];      // (e2u*e3u)_i
     w3 = e2[PNTIND(ii, jj, kk, nx, ny)][0] *
-         e3[PNTIND(ii, jj, kk, nx, ny)][0];  // e2t*e3t
+         e3[PNTIND(ii, jj, kk, nx, ny)][0];      // e2t*e3t
 
     out[0] =
         0.5 * (w1 * f1[0] + w2 * f2[0]) / w3;  // 0.5*(a1_(i-1)+a1_(i))/e2t/e3t
@@ -65,9 +65,9 @@ inline void UVW2T_ijk(unsigned int ii, unsigned int jj, unsigned int kk,
     w1 = e1[PNTIND(ii - 1, jj, kk, nx, ny)][1] *
          e3[PNTIND(ii - 1, jj, kk, nx, ny)][1];  // (e1u*e3u)_(i-1)
     w2 = e1[PNTIND(ii, jj, kk, nx, ny)][1] *
-         e3[PNTIND(ii, jj, kk, nx, ny)][1];  // (e1u*e3u)_i
+         e3[PNTIND(ii, jj, kk, nx, ny)][1];      // (e1u*e3u)_i
     w3 = e1[PNTIND(ii, jj, kk, nx, ny)][0] *
-         e3[PNTIND(ii, jj, kk, nx, ny)][0];  // e1t*e3t
+         e3[PNTIND(ii, jj, kk, nx, ny)][0];      // e1t*e3t
 
     out[1] =
         0.5 * (w1 * f1[1] + w2 * f2[1]) / w3;  // 0.5*(a2_(j-1)+a2_(j))/e1t/e3t
@@ -399,7 +399,7 @@ void gradOGS1_ijk(int ii, int jj, int kk, int nx, int ny, int nz, Field<T> &f,
 
 #pragma loop_count min(3), max(9), avg(3)  // for vectorization
     for (int gg = 0; gg < f.get_m(); ++gg) {
-      deri1[0 + 3 * gg] = 0.;                                        // dqdx
+      deri1[0 + 3 * gg] = 0.;              // dqdx
       deri2[0 + 3 * gg] = (f[ind][gg] - f[ind1][gg]) / e1[ind1][1];  // dqdx
     }
   } else if (ii == nx - 1) {
@@ -431,7 +431,7 @@ void gradOGS1_ijk(int ii, int jj, int kk, int nx, int ny, int nz, Field<T> &f,
 
 #pragma loop_count min(3), max(9), avg(3)  // for vectorization
     for (int gg = 0; gg < f.get_m(); ++gg) {
-      deri1[1 + 3 * gg] = 0.;                                        // dqdx
+      deri1[1 + 3 * gg] = 0.;              // dqdx
       deri2[1 + 3 * gg] = (f[ind][gg] - f[ind1][gg]) / e2[ind1][2];  // dqdx
     }
   } else if (jj == ny - 1) {
@@ -463,7 +463,7 @@ void gradOGS1_ijk(int ii, int jj, int kk, int nx, int ny, int nz, Field<T> &f,
 
 #pragma loop_count min(3), max(9), avg(3)  // for vectorization
     for (int gg = 0; gg < f.get_m(); ++gg) {
-      deri1[2 + 3 * gg] = 0.;                                        // dqdx
+      deri1[2 + 3 * gg] = 0.;              // dqdx
       deri2[2 + 3 * gg] = (f[ind][gg] - f[ind1][gg]) / e3[ind1][3];  // dqdx
     }
   } else if (kk == nz - 1) {
@@ -575,7 +575,7 @@ void gradOGS2_ijk(int ii, int jj, int kk, int nx, int ny, int nz, Field<T> &f,
     for (int gg = 0; gg < f.get_m(); ++gg) {
       deri1[0 + 3 * gg] = (f[ind1][gg] - f[ind2][gg]) / e1[ind2][1];  // dqdx
       deri2[0 + 3 * gg] =
-          (f[ind][gg] - f[ind2][gg]) / 2. / e1[ind1][1];  // dqdx
+          (f[ind][gg] - f[ind2][gg]) / 2. / e1[ind1][1];              // dqdx
     }
   } else if (ii == nx - 1) {
     ind = PNTIND(ii, jj, kk, nx, ny);
@@ -599,7 +599,7 @@ void gradOGS2_ijk(int ii, int jj, int kk, int nx, int ny, int nz, Field<T> &f,
       deri1[0 + 3 * gg] =
           (f[ind1][gg] - f[ind3][gg]) / 2. / e1[ind2][1];  // dqdx
       deri2[0 + 3 * gg] =
-          (f[ind][gg] - f[ind2][gg]) / 2. / e1[ind1][1];  // dqdx
+          (f[ind][gg] - f[ind2][gg]) / 2. / e1[ind1][1];   // dqdx
     }
   }
 
@@ -622,7 +622,7 @@ void gradOGS2_ijk(int ii, int jj, int kk, int nx, int ny, int nz, Field<T> &f,
     for (int gg = 0; gg < f.get_m(); ++gg) {
       deri1[1 + 3 * gg] = (f[ind1][gg] - f[ind2][gg]) / e2[ind2][2];  // dqdx
       deri2[1 + 3 * gg] =
-          (f[ind][gg] - f[ind2][gg]) / 2. / e2[ind1][2];  // dqdx
+          (f[ind][gg] - f[ind2][gg]) / 2. / e2[ind1][2];              // dqdx
     }
   } else if (jj == ny - 1) {
     ind = PNTIND(ii, jj, kk, nx, ny);
@@ -646,7 +646,7 @@ void gradOGS2_ijk(int ii, int jj, int kk, int nx, int ny, int nz, Field<T> &f,
       deri1[1 + 3 * gg] =
           (f[ind1][gg] - f[ind3][gg]) / 2. / e2[ind2][2];  // dqdx
       deri2[1 + 3 * gg] =
-          (f[ind][gg] - f[ind2][gg]) / 2. / e2[ind1][2];  // dqdx
+          (f[ind][gg] - f[ind2][gg]) / 2. / e2[ind1][2];   // dqdx
     }
   }
 
@@ -669,7 +669,7 @@ void gradOGS2_ijk(int ii, int jj, int kk, int nx, int ny, int nz, Field<T> &f,
     for (int gg = 0; gg < f.get_m(); ++gg) {
       deri1[2 + 3 * gg] = (f[ind1][gg] - f[ind2][gg]) / e3[ind2][3];  // dqdx
       deri2[2 + 3 * gg] =
-          (f[ind][gg] - f[ind2][gg]) / 2. / e3[ind1][3];  // dqdx
+          (f[ind][gg] - f[ind2][gg]) / 2. / e3[ind1][3];              // dqdx
     }
   } else if (kk == nz - 1) {
     ind = PNTIND(ii, jj, kk, nx, ny);
@@ -693,7 +693,7 @@ void gradOGS2_ijk(int ii, int jj, int kk, int nx, int ny, int nz, Field<T> &f,
       deri1[2 + 3 * gg] =
           (f[ind1][gg] - f[ind3][gg]) / 2. / e3[ind2][3];  // dqdx
       deri2[2 + 3 * gg] =
-          (f[ind][gg] - f[ind2][gg]) / 2. / e3[ind1][3];  // dqdx
+          (f[ind][gg] - f[ind2][gg]) / 2. / e3[ind1][3];   // dqdx
     }
   }
 

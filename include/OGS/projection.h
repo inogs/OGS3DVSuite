@@ -117,7 +117,7 @@ class Projection {
 
   ~Projection() = default;
 
-  Geom::Point<double> transform_point(double x, double y, double z){
+  Geom::Point<double> transform_point(double x, double y, double z) {
     PJ_COORD c, c_out;
     c.uvwt.u = x;
     c.uvwt.v = y;
@@ -128,7 +128,7 @@ class Projection {
     return {c_out.uvwt.u, c_out.uvwt.v, c_out.uvwt.w};
   }
 
-  Geom::Point<double> transform_point(double x, double y){
+  Geom::Point<double> transform_point(double x, double y) {
     return this->transform_point(x, y, 0.);
   }
 

@@ -271,7 +271,7 @@ class matrixMN {
       }
     }
     return out;
-  }  // Point to point division
+  }                            // Point to point division
   inline matrixMN<T> operator^(
       const matrixMN<T> &mn);  // Matrix dot product (to do)
   inline void operator+=(const T val) {

@@ -13,19 +13,20 @@
 
 =========================================================================*/
 
-#include "vtkFloatArray.h"
-#include "vtkDoubleArray.h"
-#include "vtkTypeUInt8Array.h"
 #include <cstdint>
+
+#include "vtkDoubleArray.h"
+#include "vtkFloatArray.h"
+#include "vtkTypeUInt8Array.h"
 
 /* ARRAY PRECISION
 
-	The macros here define the array precision for all the
-	ParaView filters.
-		> FLDARRAY: Field arrays precision
-		> VTKARRAY: VTK array precision
-		> FLDMASK:  Mask array precision (uint8_t = 8 byte)
-		> VTKMASK:  VTK mask array precision
+        The macros here define the array precision for all the
+        ParaView filters.
+                > FLDARRAY: Field arrays precision
+                > VTKARRAY: VTK array precision
+                > FLDMASK:  Mask array precision (uint8_t = 8 byte)
+                > VTKMASK:  VTK mask array precision
 */
 
 #ifdef VTK_USE_DOUBLE
@@ -36,8 +37,8 @@
 #define VTKARRAY vtkFloatArray
 #endif
 
-#define FLDMASK  uint8_t
-#define VTKMASK  vtkTypeUInt8Array
+#define FLDMASK uint8_t
+#define VTKMASK vtkTypeUInt8Array
 
 /* OPENMP SUPPORT
 
@@ -46,11 +47,11 @@
 
 #ifdef USE_OMP
 #include <omp.h>
-#define OMP_THREAD_NUM  omp_get_thread_num()
+#define OMP_THREAD_NUM omp_get_thread_num()
 #define OMP_NUM_THREADS omp_get_num_threads()
 #define OMP_MAX_THREADS omp_get_max_threads()
 #else
-#define OMP_THREAD_NUM  0
+#define OMP_THREAD_NUM 0
 #define OMP_NUM_THREADS 1
 #define OMP_MAX_THREADS 1
 #endif

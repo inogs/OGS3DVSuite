@@ -367,8 +367,8 @@ int OGSReader::RequestInformation(
 
 //----------------------------------------------------------------------------
 int OGSReader::RequestData(vtkInformation *vtkNotUsed(request),
-                              vtkInformationVector **vtkNotUsed(inputVector),
-                              vtkInformationVector *outputVector) {
+                           vtkInformationVector **vtkNotUsed(inputVector),
+                           vtkInformationVector *outputVector) {
   if (this->abort) return 0;
 
   this->initialize();

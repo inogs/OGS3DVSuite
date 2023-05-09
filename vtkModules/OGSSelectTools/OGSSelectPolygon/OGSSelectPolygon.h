@@ -16,19 +16,19 @@
 #ifndef OGSSelectPolygon_h
 #define OGSSelectPolygon_h
 
+#include <string>
+
+#include "OGS/geometry.h"
 #include "vtkDataSet.h"
 #include "vtkThreshold.h"
 
-#include <string>
-#include "OGS/geometry.h"
-
 #ifdef PARAVIEW_USE_MPI
-  class vtkMultiProcessController;
+class vtkMultiProcessController;
 #endif
 
 class VTKFILTERSCORE_EXPORT OGSSelectPolygon : public vtkThreshold {
-public:
-  static OGSSelectPolygon * New();
+ public:
+  static OGSSelectPolygon *New();
   vtkTypeMacro(OGSSelectPolygon, vtkThreshold);
 
   OGSSelectPolygon(const OGSSelectPolygon &) = delete;
@@ -42,14 +42,14 @@ public:
   vtkGetMacro(Invert, bool);
   vtkSetMacro(Invert, bool);
 
-protected:
- OGSSelectPolygon();
+ protected:
+  OGSSelectPolygon();
   ~OGSSelectPolygon() override;
 
-  int RequestData(vtkInformation *, vtkInformationVector **, vtkInformationVector *) override;
+  int RequestData(vtkInformation *, vtkInformationVector **,
+                  vtkInformationVector *) override;
 
-private:
-
+ private:
   bool Invert;
   int nProcs;
   double dfact;

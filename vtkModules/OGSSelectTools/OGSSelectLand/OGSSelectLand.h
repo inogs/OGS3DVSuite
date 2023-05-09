@@ -59,7 +59,7 @@ class VTKFILTERSCORE_EXPORT OGSSelectLand : public vtkThreshold {
 
  private:
   int procId, nProcs;
-  const char * mask_field;
+  const char* mask_field;
 };
 
 #endif
