@@ -34,7 +34,7 @@ class vtkAbstractCellLocator;
 class vtkMultiProcessController;
 #endif
 
-class VTK_EXPORT OGSSpaghetti : public vtkTableAlgorithm {
+class VTKCOMMONEXECUTIONMODEL_EXPORT OGSSpaghetti : public vtkTableAlgorithm {
  public:
   static OGSSpaghetti *New();
   vtkTypeMacro(OGSSpaghetti, vtkTableAlgorithm);
