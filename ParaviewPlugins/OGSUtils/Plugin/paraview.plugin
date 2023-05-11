@@ -1,0 +1,6 @@
+NAME
+  OGSUtilsPlugin
+DESCRIPTION
+  Plugin that offers 3 different sources used by other OGS plugins
+REQUIRES_MODULES
+  OGSUtils

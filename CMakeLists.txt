@@ -30,7 +30,7 @@ add_library(OGS3DVSuite SHARED
         sources/netcdfio.cpp
         sources/fieldOperations.cpp
         sources/vtkFields.cpp
-        sources/vtkOperations.cpp)
+        sources/vtkOperations.cpp vtkModules/OGSUtils/ProjectionAssociation.h)
 
 set_target_properties(OGS3DVSuite PROPERTIES
         CXX_STANDARD 17
@@ -189,6 +189,7 @@ if (WITH_VTK_MODULES)
     SET(_targets ${_targets} OGSSelectOkuboWeiss)
     SET(_targets ${_targets} OGSSelectPolygon)
     SET(_targets ${_targets} OGSSelectTimePeriod)
+    SET(_targets ${_targets} OGSUtils)
     if (WITH_PARAVIEW_PLUGINS)
         SET(_targets ${_targets} OGSAnnotateDateTime)
     endif ()

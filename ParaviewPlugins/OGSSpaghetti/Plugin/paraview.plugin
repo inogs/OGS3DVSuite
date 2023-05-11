@@ -4,3 +4,4 @@ DESCRIPTION
   Plugin to generate Spaghetti plots
 REQUIRES_MODULES
   OGSSpaghetti
+  OGSUtils

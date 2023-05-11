@@ -17,7 +17,9 @@
 #define PROJECTIONS_H
 
 #include <proj.h>
+#include "OGS/geometry.h"
 
+#include <memory>
 #include <map>
 #include <string>
 
@@ -91,7 +93,7 @@ const std::map<const std::string, const std::string> PROJS = {
      "+lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +wktext "
      "+ +no_defs +no_defs"}};
 
-std::map<const std::string, const std::string> get_projection_map() {
+static std::map<const std::string, const std::string> get_projection_map() {
   return PROJS;
 }
 
@@ -117,7 +119,7 @@ class Projection {
 
   ~Projection() = default;
 
-  Geom::Point<double> transform_point(double x, double y, double z) {
+  OGS::Geom::Point<double> transform_point(double x, double y, double z) {
     PJ_COORD c, c_out;
     c.uvwt.u = x;
     c.uvwt.v = y;
