@@ -120,9 +120,9 @@ endif ()
 
 
 # Set the dependencies for the compilation
-target_include_directories(OGS3DVSuite PRIVATE "${NETCDF_INCLUDES}")
+target_include_directories(OGS3DVSuite PUBLIC "${NETCDF_INCLUDES}")
 target_link_libraries(OGS3DVSuite PRIVATE ${VTK_LIBRARIES} OpenMP::OpenMP_CXX)
-target_link_libraries(OGS3DVSuite PRIVATE "${NETCDF_LIBRARIES}")
+target_link_libraries(OGS3DVSuite PUBLIC "${NETCDF_LIBRARIES}")
 
 
 # Write the RPATH in the library
@@ -219,7 +219,6 @@ install(FILES ${CMAKE_BINARY_DIR}/ogs3dvsuite.pc
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/OGS3DVSuiteConfig.cmake"
         "${CMAKE_CURRENT_BINARY_DIR}/OGS3DVSuiteConfigVersion.cmake"
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake)
-
 
 # This is useful if, during development, it is required to link to OGS3DVSuite
 # directly from the build directory without performing installation

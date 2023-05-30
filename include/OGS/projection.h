@@ -17,11 +17,12 @@
 #define PROJECTIONS_H
 
 #include <proj.h>
-#include "OGS/geometry.h"
 
-#include <memory>
 #include <map>
+#include <memory>
 #include <string>
+
+#include "OGS/geometry.h"
 
 #define PROJ_ERR 0
 #define PROJ_OK 1
@@ -62,36 +63,33 @@ class InvalidProjection : std::invalid_argument {
 
 // map containing all the default projections from the Suite
 const std::map<const std::string, const std::string> PROJS = {
-    {"degrees",
-     "+ellps=WGS84 +a=57.29577951308232 +proj=eqc +lon_0=0.0 "
-     "+no_defs"},  // Plate Carree
+    {"degrees", "EPSG:4326"},
     {"mercator",
-     "+ellps=WGS84 +proj=merc +lon_0=0.0 +x_0=989634.3811336625 "
-     "+y_0=-3512473.95569 +units=m +no_defs"},  // Mercator centered
-                                                // on MED
+     "+proj=merc +datum=WGS84 +lon_0=0.0 +x_0=989634.3811336625 "
+     "+y_0=-3512473.95569 +units=m"},  // Mercator centered
+                                       // on MED
     {"cylindrical",
-     "+datum=WGS84 +ellps=WGS84 +proj=eqc +lat_ts=0 +lat_0=0 "
-     "+lon_0=0 +x_0=0 +y_0=0 +units=m +no_defs +no_defs"},  // Cylindrical
-                                                            // using
-                                                            // EPSG:4087
+     "+proj=eqc +datum=WGS84 +ellps=WGS84 +lat_ts=0 +lat_0=0 "
+     "+lon_0=0 +x_0=0 +y_0=0 +units=m"},  // Cylindrical
+                                          // using
+                                          // EPSG:4087
     {"google",
-     "+a=6378137.0 +b=6378137.0 +nadgrids=@null +proj=merc "
-     "+lon_0=0.0 +x_0=0.0 +y_0=0.0 +units=m +no_defs"},  // Google
-                                                         // Mercator
-    {"mollweide", "+a=6378137.0 +proj=moll +lon_0=0 +no_defs"},
-    {"orthographic", "+ellps=WGS84 +proj=ortho +lon_0=0.0 +lat_0=0.0 +no_defs"},
-    {"robinson", "+a=6378137.0 +proj=robin +lon_0=0 +no_defs"},
+     "+proj=merc +a=6378137.0 +b=6378137.0 +nadgrids=@null "
+     "+lon_0=0.0 +x_0=0.0 +y_0=0.0 +units=m "},  // Google
+                                                 // Mercator
+    {"mollweide", "+proj=moll +a=6378137.0 +lon_0=0 "},
+    {"orthographic", "+proj=ortho +ellps=WGS84 +lon_0=0.0 +lat_0=0.0"},
+    {"robinson", "+proj=robin +a=6378137.0 +lon_0=0"},
     {"satellite",
-     "+a=6378137.0 +proj=nsper +lon_0=17.5 +lat_0=36.4 +h=6779000 "
-     "+x_0=0 +y_0=0 +units=m +no_defs"},  // Nearside Perspective
-                                          // centered on MED at ISS
-                                          // altitude
-    {"eckert iv", "+a=6378137.0 +proj=eck4 +lon_0=0 +no_defs"},
-    {"equal earth", "+ellps=WGS84 +proj=eqearth +lon_0=0 +no_defs"},
+     "+proj=nsper +a=6378137.0 +lon_0=17.5 +lat_0=36.4 +h=6779000 "
+     "+x_0=0 +y_0=0 +units=m"},  // Nearside Perspective
+                                 // centered on MED at ISS
+                                 // altitude
+    {"eckert iv", "+proj=eck4 +a=6378137.0 +lon_0=0"},
+    {"equal earth", "+proj=eqearth +ellps=WGS84 +lon_0=0"},
     {"epsg 3857",
-     "+ellps=WGS84 +a=6378137 +b=6378137 +nadgrids=@null +proj=merc "
-     "+lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +wktext "
-     "+ +no_defs +no_defs"}};
+     "+proj=merc +ellps=WGS84 +a=6378137 +b=6378137 +nadgrids=@null"
+     "+lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +wktext"}};
 
 static std::map<const std::string, const std::string> get_projection_map() {
   return PROJS;
