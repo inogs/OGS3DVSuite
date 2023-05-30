@@ -1,0 +1,6 @@
+NAME
+  OGSSpatialStatsPlugin
+DESCRIPTION
+  Plugin to compute spatial statistics
+REQUIRES_MODULES
+  OGSSpatialStats
