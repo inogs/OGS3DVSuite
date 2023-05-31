@@ -1,0 +1,5 @@
+NAME
+  OGS::OGSDepthProfile
+DEPENDS
+  VTK::CommonDataModel
+  VTK::CommonExecutionModel
