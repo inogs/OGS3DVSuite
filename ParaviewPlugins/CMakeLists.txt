@@ -1,6 +1,7 @@
 add_subdirectory("OGSReader")
 add_subdirectory("OGSSelectTools")
 add_subdirectory("OGSAnnotateDateTime")
+add_subdirectory("OGSDepthProfile")
 add_subdirectory("OGSUtils")
 add_subdirectory("OGSSpaghetti")
 add_subdirectory("OGSSpatialStats")

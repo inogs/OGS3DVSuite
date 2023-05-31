@@ -26,7 +26,8 @@ class vtkAbstractCellLocator;
 class vtkMultiProcessController;
 #endif
 
-class VTK_EXPORT OGSDepthProfile : public vtkDataSetAlgorithm {
+class VTKCOMMONEXECUTIONMODEL_EXPORT OGSDepthProfile
+    : public vtkDataSetAlgorithm {
  public:
   static OGSDepthProfile *New();
   vtkTypeMacro(OGSDepthProfile, vtkDataSetAlgorithm);
@@ -77,7 +78,6 @@ class VTK_EXPORT OGSDepthProfile : public vtkDataSetAlgorithm {
 #endif
 
  private:
-
   int procId, nProcs;
 
   vtkAbstractCellLocator *CellLocatorPrototype;

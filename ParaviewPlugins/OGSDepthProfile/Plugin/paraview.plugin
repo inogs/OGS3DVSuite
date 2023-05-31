@@ -1,0 +1,6 @@
+NAME
+  OGSDepthProfilePlugin
+DESCRIPTION
+  Draw the depth profile of a surface point
+REQUIRES_MODULES
+  OGSDepthProfile
