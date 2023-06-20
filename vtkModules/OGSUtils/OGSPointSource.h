@@ -15,35 +15,35 @@
 #ifndef OGSPointSource_h
 #define OGSPointSource_h
 
-#include "vtkFiltersSourcesModule.h" // For export macro
+#include "vtkFiltersSourcesModule.h"  // For export macro
 #include "vtkPolyDataAlgorithm.h"
 
-#define VTK_POINT_UNIFORM   1
-#define VTK_POINT_SHELL     0
+#define VTK_POINT_UNIFORM 1
+#define VTK_POINT_SHELL 0
 
 class vtkRandomSequence;
 
 class OGSPointSource : public vtkPolyDataAlgorithm {
-public:
+ public:
   static OGSPointSource *New();
-  vtkTypeMacro(OGSPointSource,vtkPolyDataAlgorithm);
+  vtkTypeMacro(OGSPointSource, vtkPolyDataAlgorithm);
 
   // Description:
   // Set the number of points to generate.
-  //vtkSetClampMacro(NumberOfPoints,vtkIdType,1,VTK_ID_MAX);
-  //vtkGetMacro(NumberOfPoints,vtkIdType);
+  // vtkSetClampMacro(NumberOfPoints,vtkIdType,1,VTK_ID_MAX);
+  // vtkGetMacro(NumberOfPoints,vtkIdType);
 
   // Description:
   // Set the center of the point cloud.
-  vtkSetVector3Macro(Center,double);
-  vtkGetVectorMacro(Center,double,3);
+  vtkSetVector3Macro(Center, double);
+  vtkGetVectorMacro(Center, double, 3);
 
   // Description:
   // Set the radius of the point cloud.  If you are
   // generating a Gaussian distribution, then this is
   // the standard deviation for each of x, y, and z.
-  vtkSetClampMacro(Radius,double,0.0,VTK_DOUBLE_MAX);
-  vtkGetMacro(Radius,double);
+  vtkSetClampMacro(Radius, double, 0.0, VTK_DOUBLE_MAX);
+  vtkGetMacro(Radius, double);
 
   // Description:
   // Lets the user select a multiplier factor for the depth
@@ -56,56 +56,57 @@ public:
   vtkSetMacro(Projection, int);
 
   // Description:
-  // Lets the user input a Longitude and Latitude pair 
+  // Lets the user input a Longitude and Latitude pair
   // instead of a point in the mesh
-  void SetLonLat(double,double);
-  void GetLonLat(double&,double&);
+  void SetLonLat(double, double);
+  void GetLonLat(double &, double &);
 
   // Description:
   // Lets the user input a depth
   // instead of a point in the mesh
   void SetDepth(double);
-  void GetDepth(double&);
+  void GetDepth(double &);
 
   // Description:
   // Specify the distribution to use.  The default is a
   // uniform distribution.  The shell distribution produces
   // random points on the surface of the sphere, none in the interior.
-  vtkSetMacro(Distribution,int);
+  vtkSetMacro(Distribution, int);
   void SetDistributionToUniform() { this->SetDistribution(VTK_POINT_UNIFORM); };
-  void SetDistributionToShell()   { this->SetDistribution(VTK_POINT_SHELL);   };
-  vtkGetMacro(Distribution,int);
+  void SetDistributionToShell() { this->SetDistribution(VTK_POINT_SHELL); };
+  vtkGetMacro(Distribution, int);
 
   // Description:
   // Set/get the desired precision for the output points.
   // vtkAlgorithm::SINGLE_PRECISION - Output single-precision floating point.
   // vtkAlgorithm::DOUBLE_PRECISION - Output double-precision floating point.
-  vtkSetMacro(OutputPointsPrecision,int);
-  vtkGetMacro(OutputPointsPrecision,int);
+  vtkSetMacro(OutputPointsPrecision, int);
+  vtkGetMacro(OutputPointsPrecision, int);
 
   // Description:
   // Set/Get a random sequence generator.
   // By default, the generator in vtkMath is used to maintain backwards
   // compatibility.
   virtual void SetRandomSequence(vtkRandomSequence *randomSequence);
-  vtkGetObjectMacro(RandomSequence,vtkRandomSequence);
+  vtkGetObjectMacro(RandomSequence, vtkRandomSequence);
 
-protected:
-  OGSPointSource(vtkIdType numPts=1);
+ protected:
+  OGSPointSource(vtkIdType numPts = 1);
   ~OGSPointSource() override;
 
-  int RequestData(vtkInformation *, vtkInformationVector **, vtkInformationVector *) override;
+  int RequestData(vtkInformation *, vtkInformationVector **,
+                  vtkInformationVector *) override;
 
   double Random();
 
   vtkIdType NumberOfPoints;
   double Center[3], Radius, DepthScale;
   int Distribution, OutputPointsPrecision, Projection;
-  vtkRandomSequence* RandomSequence;
+  vtkRandomSequence *RandomSequence;
 
-private:
-  OGSPointSource(const OGSPointSource&) = delete;
-  void operator=(const OGSPointSource&) = delete;
+ private:
+  OGSPointSource(const OGSPointSource &) = delete;
+  void operator=(const OGSPointSource &) = delete;
 };
 
 #endif

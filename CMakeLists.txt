@@ -30,7 +30,8 @@ add_library(OGS3DVSuite SHARED
         sources/netcdfio.cpp
         sources/fieldOperations.cpp
         sources/vtkFields.cpp
-        sources/vtkOperations.cpp vtkModules/OGSUtils/ProjectionAssociation.h)
+        sources/vtkOperations.cpp
+        sources/utilities.cpp)
 
 set_target_properties(OGS3DVSuite PROPERTIES
         CXX_STANDARD 17
@@ -191,6 +192,9 @@ if (WITH_VTK_MODULES)
     SET(_targets ${_targets} OGSSelectTimePeriod)
     SET(_targets ${_targets} OGSDepthProfile)
     SET(_targets ${_targets} OGSSpatialStats)
+    SET(_targets ${_targets} OGSTimeStatsAggregator)
+    SET(_targets ${_targets} OGSTimeStatsAverage)
+    SET(_targets ${_targets} OGSTimeStatsClimatology)
     SET(_targets ${_targets} OGSUtils)
     if (WITH_PARAVIEW_PLUGINS)
         SET(_targets ${_targets} OGSAnnotateDateTime)

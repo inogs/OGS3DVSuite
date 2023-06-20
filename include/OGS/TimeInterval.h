@@ -123,6 +123,7 @@ inline bool TimeInterval::isInWindow(const TimeInterval &T2) {
 
 
 inline bool TimeInterval::isInside(const TimeInterval &T2) {
+  (void)T2;
   fprintf(stderr, "Not Implemented!\n");
   exit(-1);
 }

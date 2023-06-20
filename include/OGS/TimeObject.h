@@ -375,11 +375,11 @@ int TimeObjectList::find(const TimeObject &TO) {
   */
   int posmin = -1;
   time_t diffmin = 9999999;
-  for (int ii = 0; ii < n; ++ii) {
+  for (unsigned int ii = 0; ii < n; ++ii) {
     time_t diff = TOList[ii] - TO;
     if (diff < diffmin) {
       diffmin = diff;
-      posmin = ii;
+      posmin = static_cast<int>(ii);
     }
   }
   return posmin;

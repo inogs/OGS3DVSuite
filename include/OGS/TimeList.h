@@ -27,7 +27,7 @@
 #include "TimeRequestors.h"
 
 #define TIME_OK 0
-#define TIME_ERR -1
+#define TIME_ERR (-1)
 
 namespace OGS::Time {
 
@@ -87,7 +87,7 @@ class TimeList {
  public:
   inline TimeList();
   inline TimeList(const TimeList &TL);
-  inline TimeList(const TimeObjectList &datelist);
+  inline explicit TimeList(const TimeObjectList &datelist);
   inline TimeList(const TimeObjectList &datelist, const char *forceFrequency);
   inline TimeList(const TimeObject &start, const TimeObject &end,
                   const char *delta);
@@ -96,28 +96,29 @@ class TimeList {
   // Implementation not needed
   //			inline TimeList(const TimeInterval *TL, const char
   //*inputdir,
-  // const char *searchstring, 				const char *filtervar="None",
-  // const char *prefix="ave.", const char *dateformat="%Y%m%d-%H:%M:%S",
-  // const int hour=12, const char *forceFrequency="None");
+  // const char *searchstring, 				const char
+  // *filtervar="None", const char *prefix="ave.", const char
+  // *dateformat="%Y%m%d-%H:%M:%S", const int hour=12, const char
+  // *forceFrequency="None");
 
-  inline int len() const { return nTimes; }
-  inline TimeObjectList list() const { return TOL; }
-  inline TimeInterval interval() const { return TI; }
-  inline std::string frequency() const { return inputFrequency; }
+  [[nodiscard]] inline unsigned int len() const { return nTimes; }
+  [[nodiscard]] inline TimeObjectList list() const { return TOL; }
+  [[nodiscard]] inline TimeInterval interval() const { return TI; }
+  [[nodiscard]] inline std::string frequency() const { return inputFrequency; }
 
   inline int select(Requestor *req);
   inline int select(Requestor *req, std::vector<int> &selection,
                     std::vector<double> &weights);
 
   inline REQ_LIST getDailyList();
-  inline REQ_LIST getWeeklyList(const int weekday);
-  inline REQ_LIST getMonthlist(const bool extrap);
-  inline REQ_LIST getSeasonList(Season &s_obj, const bool extrap);
+  inline REQ_LIST getWeeklyList(int weekday);
+  inline REQ_LIST getMonthlist(bool extrap);
+  inline REQ_LIST getSeasonList(Season &s_obj, bool extrap);
   inline REQ_LIST getYearlist();
   inline REQ_LIST getDecadalList();
   inline REQ_LIST getOwnList();
   inline REQ_LIST getSpecificIntervalList(const char *startstr, const char *fmt,
-                                          const int days);
+                                          int days);
 
   inline int find(const TimeObject &TO) { return TOL.find(TO); }
   inline void merge(TimeObjectList &datelist);
@@ -130,13 +131,7 @@ class TimeList {
   inline TimeObject &operator[](int i) {
     return (i >= 0) ? TOL[i] : TOL[nTimes + i];
   }
-  inline TimeList &operator=(const TimeList &TL) {
-    nTimes = TL.nTimes;
-    TOL = TL.TOL;
-    TI = TL.TI;
-    inputFrequency = TL.inputFrequency;
-    return (*this);
-  }
+  inline TimeList &operator=(const TimeList &TL) = default;
 
   class iterator {
    public:
@@ -200,7 +195,7 @@ class TimeList {
     inline bool operator!=(const iterator &r) const { return i != r.i; }
     inline bool operator==(const iterator &r) const { return i == r.i; }
 
-    inline int ind() { return i; }
+    [[nodiscard]] inline int ind() const { return i; }
 
    private:
     TimeList *TL;
@@ -208,10 +203,10 @@ class TimeList {
   };
 
   inline iterator begin() { return iterator{this, 0}; }
-  inline iterator end() { return iterator{this, nTimes}; }
+  inline iterator end() { return iterator{this, static_cast<int>(nTimes)}; }
 
  private:
-  int nTimes;
+  unsigned int nTimes;
   std::string inputFrequency;
   TimeObjectList TOL;
   TimeInterval TI;
@@ -293,7 +288,7 @@ inline int TimeList::select(Requestor *req) {
           Doesn't work with: Clim_day, Clim_month and Clim_season
   */
 
-  for (int ii = 0; ii < this->nTimes; ++ii) {
+  for (int ii = 0; ii < static_cast<int>(this->nTimes); ++ii) {
     if (req->contains(this->TOL[ii])) return ii;
   }
   return TIME_ERR;
@@ -341,14 +336,14 @@ inline REQ_LIST TimeList::getDailyList() {
   std::vector<int> indexes;
   std::vector<double> weights;
 
-  for (int ii = 0; ii < TL.len(); ++ii) {
+  for (unsigned int ii = 0; ii < TL.len(); ++ii) {
     int day = std::stoi(TL[ii].as_string("%d"));
     int month = std::stoi(TL[ii].as_string("%m"));
     int year = std::stoi(TL[ii].as_string("%Y"));
     Daily_req D(year, month, day);
 
     this->generaldayselector(&D, indexes, weights);
-    if (indexes.size() > 0) req_list.push_back(new Daily_req(year, month, day));
+    if (!indexes.empty()) req_list.push_back(new Daily_req(year, month, day));
   }
 
   return req_list;
@@ -364,7 +359,7 @@ inline REQ_LIST TimeList::getWeeklyList(const int weekday) {
   */
   int PossibleShifts[] = {3, 2, 1, 0, -1, -2, -3};
   int index = 0;
-  TimeObject starting_centered_day = TimeObject(this->TI.get_start_time());
+  auto starting_centered_day = TimeObject(this->TI.get_start_time());
   for (int day = weekday - 3, count = 0; day < weekday + 4; ++day, ++count) {
     int interested_weekday = (int)(day % 7);
     if (interested_weekday == 0) interested_weekday = 7;
@@ -378,15 +373,14 @@ inline REQ_LIST TimeList::getWeeklyList(const int weekday) {
   std::vector<int> indexes;
   std::vector<double> weights;
 
-  for (int ii = 0; ii < TL.len(); ++ii) {
+  for (unsigned int ii = 0; ii < TL.len(); ++ii) {
     int day = std::stoi(TL[ii].as_string("%d"));
     int month = std::stoi(TL[ii].as_string("%m"));
     int year = std::stoi(TL[ii].as_string("%Y"));
     Weekly_req W(year, month, day);
 
     this->generalweekselector(&W, indexes, weights);
-    if (indexes.size() > 0)
-      req_list.push_back(new Weekly_req(year, month, day));
+    if (!indexes.empty()) req_list.push_back(new Weekly_req(year, month, day));
   }
 
   return req_list;
@@ -401,10 +395,10 @@ inline REQ_LIST TimeList::getMonthlist(const bool extrap = false) {
      201202, because of the part of the week before the centered time.
   */
   std::vector<std::pair<int, int>> month_list;
-  month_list.push_back(std::make_pair(std::stoi(this->TOL[0].as_string("%Y")),
-                                      std::stoi(this->TOL[0].as_string("%m"))));
+  month_list.emplace_back(std::stoi(this->TOL[0].as_string("%Y")),
+                          std::stoi(this->TOL[0].as_string("%m")));
 
-  for (int ii = 1; ii < this->nTimes; ++ii) {
+  for (unsigned int ii = 1; ii < this->nTimes; ++ii) {
     std::pair<int, int> newmonth(std::stoi(this->TOL[ii].as_string("%Y")),
                                  std::stoi(this->TOL[ii].as_string("%m")));
     if (std::find(month_list.begin(), month_list.end(), newmonth) ==
@@ -419,21 +413,19 @@ inline REQ_LIST TimeList::getMonthlist(const bool extrap = false) {
         "%Y%m%d-%H:%M:%S");
     TimeObject lastMonth(this->TI.get_end_time().as_string("%Y%m01-00:00:00"),
                          "%Y%m%d-%H:%M:%S");
-    for (int ii = 0; ii < month_list.size(); ++ii) {
+    for (auto &ii : month_list) {
       char buff[256];
-      std::sprintf(buff, "%d%02d01-00:00:00", month_list[ii].first,
-                   month_list[ii].second);
+      std::sprintf(buff, "%d%02d01-00:00:00", ii.first, ii.second);
       TimeObject firstOfMonth(buff, "%Y%m%d-%H:%M:%S");
       if (firstOfMonth >= firstMonth && firstOfMonth <= lastMonth)
-        month_list_red.push_back(month_list[ii]);
+        month_list_red.push_back(ii);
     }
     month_list = month_list_red;
   }
 
   REQ_LIST req_list;
-  for (int ii = 0; ii < month_list.size(); ++ii)
-    req_list.push_back(
-        new Monthly_req(month_list[ii].first, month_list[ii].second));
+  for (auto &ii : month_list)
+    req_list.push_back(new Monthly_req(ii.first, ii.second));
 
   return req_list;
 }
@@ -448,10 +440,10 @@ inline REQ_LIST TimeList::getSeasonList(Season &s_obj,
      201202, because of the part of the week before the centered time.
   */
   std::vector<std::pair<int, int>> season_list;
-  season_list.push_back(std::make_pair(std::stoi(this->TOL[0].as_string("%Y")),
-                                       s_obj.find_season(this->TOL[0])));
+  season_list.emplace_back(std::stoi(this->TOL[0].as_string("%Y")),
+                           s_obj.find_season(this->TOL[0]));
 
-  for (int ii = 1; ii < this->nTimes; ++ii) {
+  for (unsigned int ii = 1; ii < this->nTimes; ++ii) {
     std::pair<int, int> newseason(std::stoi(this->TOL[ii].as_string("%Y")),
                                   s_obj.find_season(this->TOL[ii]));
     if (std::find(season_list.begin(), season_list.end(), newseason) ==
@@ -464,40 +456,38 @@ inline REQ_LIST TimeList::getSeasonList(Season &s_obj,
     TimeObject first = this->TI.get_start_time();
     TimeObject last = this->TI.get_end_time();
     Season_req firstSeason(std::stoi(first.as_string("%Y")),
-                           s_obj.find_season(first), s_obj);
+                           static_cast<int>(s_obj.find_season(first)), s_obj);
     Season_req lastSeason(std::stoi(last.as_string("%Y")),
-                          s_obj.find_season(last), s_obj);
-    for (int ii = 0; ii < season_list.size(); ++ii) {
-      Season_req req(season_list[ii].first, season_list[ii].second, s_obj);
+                          static_cast<int>(s_obj.find_season(last)), s_obj);
+    for (auto &ii : season_list) {
+      Season_req req(ii.first, ii.second, s_obj);
       first = firstSeason.interval().get_start_time();
       last = lastSeason.interval().get_end_time();
       TimeObject ffirst = req.interval().get_start_time();
       TimeObject llast = req.interval().get_end_time();
-      if (ffirst >= first && llast <= last)
-        season_list_red.push_back(season_list[ii]);
+      if (ffirst >= first && llast <= last) season_list_red.push_back(ii);
     }
     season_list = season_list_red;
   }
 
   REQ_LIST req_list;
-  for (int ii = 0; ii < season_list.size(); ++ii)
-    req_list.push_back(
-        new Season_req(season_list[ii].first, season_list[ii].second, s_obj));
+  for (auto &ii : season_list)
+    req_list.push_back(new Season_req(ii.first, ii.second, s_obj));
 
   return req_list;
 }
 
 inline REQ_LIST TimeList::getYearlist() {
   std::vector<int> year_list;
-  for (int ii = 0; ii < this->nTimes; ++ii) {
+  for (unsigned int ii = 0; ii < this->nTimes; ++ii) {
     int year = std::stoi(this->TOL[ii].as_string("%Y"));
     if (std::find(year_list.begin(), year_list.end(), year) == year_list.end())
       year_list.push_back(year);
   }
 
   REQ_LIST req_list;
-  for (int ii = 0; ii < year_list.size(); ++ii) {
-    req_list.push_back(new Yearly_req(year_list[ii]));
+  for (int ii : year_list) {
+    req_list.push_back(new Yearly_req(ii));
   }
 
   return req_list;
@@ -519,7 +509,7 @@ inline REQ_LIST TimeList::getOwnList() {
   REQ_LIST req_list;
 
   if (this->inputFrequency == std::string("seconds=900")) {
-    for (int ii = 0; ii < this->nTimes; ++ii) {
+    for (unsigned int ii = 0; ii < this->nTimes; ++ii) {
       int year = std::stoi(this->TOL[ii].as_string("%Y"));
       int month = std::stoi(this->TOL[ii].as_string("%m"));
       int day = std::stoi(this->TOL[ii].as_string("%d"));
@@ -529,7 +519,7 @@ inline REQ_LIST TimeList::getOwnList() {
     }
   }
   if (this->inputFrequency == std::string("seconds=1800")) {
-    for (int ii = 0; ii < this->nTimes; ++ii) {
+    for (unsigned int ii = 0; ii < this->nTimes; ++ii) {
       int year = std::stoi(this->TOL[ii].as_string("%Y"));
       int month = std::stoi(this->TOL[ii].as_string("%m"));
       int day = std::stoi(this->TOL[ii].as_string("%d"));
@@ -539,7 +529,7 @@ inline REQ_LIST TimeList::getOwnList() {
     }
   }
   if (this->inputFrequency == std::string("hourly")) {
-    for (int ii = 0; ii < this->nTimes; ++ii) {
+    for (unsigned int ii = 0; ii < this->nTimes; ++ii) {
       int year = std::stoi(this->TOL[ii].as_string("%Y"));
       int month = std::stoi(this->TOL[ii].as_string("%m"));
       int day = std::stoi(this->TOL[ii].as_string("%d"));
@@ -548,7 +538,7 @@ inline REQ_LIST TimeList::getOwnList() {
     }
   }
   if (this->inputFrequency == std::string("daily")) {
-    for (int ii = 0; ii < this->nTimes; ++ii) {
+    for (unsigned int ii = 0; ii < this->nTimes; ++ii) {
       int year = std::stoi(this->TOL[ii].as_string("%Y"));
       int month = std::stoi(this->TOL[ii].as_string("%m"));
       int day = std::stoi(this->TOL[ii].as_string("%d"));
@@ -556,7 +546,7 @@ inline REQ_LIST TimeList::getOwnList() {
     }
   }
   if (this->inputFrequency == std::string("10days")) {
-    for (int ii = 0; ii < this->nTimes; ++ii) {
+    for (unsigned int ii = 0; ii < this->nTimes; ++ii) {
       int year = std::stoi(this->TOL[ii].as_string("%Y"));
       int month = std::stoi(this->TOL[ii].as_string("%m"));
       int day = std::stoi(this->TOL[ii].as_string("%d"));
@@ -564,7 +554,7 @@ inline REQ_LIST TimeList::getOwnList() {
     }
   }
   if (this->inputFrequency == std::string("weekly")) {
-    for (int ii = 0; ii < this->nTimes; ++ii) {
+    for (unsigned int ii = 0; ii < this->nTimes; ++ii) {
       int year = std::stoi(this->TOL[ii].as_string("%Y"));
       int month = std::stoi(this->TOL[ii].as_string("%m"));
       int day = std::stoi(this->TOL[ii].as_string("%d"));
@@ -572,20 +562,20 @@ inline REQ_LIST TimeList::getOwnList() {
     }
   }
   if (this->inputFrequency == std::string("monthly")) {
-    for (int ii = 0; ii < this->nTimes; ++ii) {
+    for (unsigned int ii = 0; ii < this->nTimes; ++ii) {
       int year = std::stoi(this->TOL[ii].as_string("%Y"));
       int month = std::stoi(this->TOL[ii].as_string("%m"));
       req_list.push_back(new Monthly_req(year, month));
     }
   }
   if (this->inputFrequency == std::string("yearly")) {
-    for (int ii = 0; ii < this->nTimes; ++ii) {
+    for (unsigned int ii = 0; ii < this->nTimes; ++ii) {
       int year = std::stoi(this->TOL[ii].as_string("%Y"));
       req_list.push_back(new Yearly_req(year));
     }
   }
 
-  if (req_list.size() == 0) std::fprintf(stderr, "Not implemented!\n");
+  if (req_list.empty()) std::fprintf(stderr, "Not implemented!\n");
 
   return req_list;
 }
@@ -603,7 +593,7 @@ inline REQ_LIST TimeList::getSpecificIntervalList(const char *startstr,
   TimeObjectList dl(starttime, endtime, buff);
 
   REQ_LIST req_list;
-  for (TimeObject dateobj : dl) {
+  for (const TimeObject &dateobj : dl) {
     int year = std::stoi(dateobj.as_string("%Y"));
     int month = std::stoi(dateobj.as_string("%m"));
     int day = std::stoi(dateobj.as_string("%d"));
@@ -621,12 +611,12 @@ inline std::string TimeList::searchFrequency() {
   if (this->TOL.len() < 2) {
     std::printf("Frequency cannot be calculated in between %s\n",
                 this->TI.as_string("%Y%m%d").c_str());
-    return std::string("None");
+    return {"None"};
   }
 
   // Compute time difference in seconds
   std::vector<time_t> diffs(this->nTimes - 1);
-  for (int ii = 0; ii < this->nTimes - 1; ++ii)
+  for (unsigned int ii = 0; ii < this->nTimes - 1; ++ii)
     diffs[ii] = this->TOL[ii + 1] - this->TOL[ii];
 
   // Sort the differences
@@ -636,7 +626,7 @@ inline std::string TimeList::searchFrequency() {
   time_t number = diffs[0], moda = diffs[0];
   int count = 1, count_moda = 1;
 
-  for (int ii = 1; ii < this->nTimes - 1; ++ii) {
+  for (unsigned int ii = 1; ii < this->nTimes - 1; ++ii) {
     if (diffs[ii] == number) {
       // Count occurences of the same number
       ++count;
@@ -651,20 +641,20 @@ inline std::string TimeList::searchFrequency() {
     }
   }
 
-  float days = (float)(moda / 3600. / 24.);
+  auto days = static_cast<float>(static_cast<double>(moda) / 3600. / 24.);
 
   // Output
-  if (days == 1.) return std::string("daily");
-  if (days > 6. && days < 8.) return std::string("weekly");
-  if (days > 26. && days < 32.) return std::string("monthly");
-  if (days < 1. && days > 1. / 24.) return std::string("hourly");
+  if (days == 1.) return "daily";
+  if (days > 6. && days < 8.) return "weekly";
+  if (days > 26. && days < 32.) return "monthly";
+  if (days < 1. && days > 1. / 24.) return "hourly";
   if (days < 1. / 24.)
     return std::string("seconds=") + std::to_string((int)(days * 24. * 3600.));
-  if (days > 364. && days < 367.) return std::string("yearly");
+  if (days > 364. && days < 367.) return "yearly";
   if (std::fabs((int)(days)-days) < 0.1)
     return std::string("days=") + std::to_string((int)(days));
-  if (days == 10.) return std::string("10days");
-  if (days > 1. && days < 7.) return std::string("None");
+  if (days == 10.) return "10days";
+  if (days > 1. && days < 7.) return "None";
 
   std::fprintf(stderr, "Oopsie! this shouldn't have happened!\n");
   exit(-1);
@@ -675,7 +665,7 @@ inline int TimeList::generaltimeselector(Requestor *req,
                                          std::vector<double> &weights) {
   // Separate by input frequency
   if (this->inputFrequency == std::string("daily")) {
-    for (int ii = 0; ii < this->nTimes; ++ii) {
+    for (int ii = 0; ii < static_cast<int>(this->nTimes); ++ii) {
       if (req->contains(this->TOL[ii])) {
         selection.push_back(ii);
         weights.push_back(1.);
@@ -687,7 +677,7 @@ inline int TimeList::generaltimeselector(Requestor *req,
       this->inputFrequency == std::string("monthly") ||
       this->inputFrequency == std::string("yearly") ||
       this->inputFrequency == std::string("10days")) {
-    for (int ii = 0; ii < this->nTimes; ++ii) {
+    for (int ii = 0; ii < static_cast<int>(this->nTimes); ++ii) {
       TimeInterval T1 = computeTimeWindow(this->inputFrequency, this->TOL[ii]);
       TimeInterval T2 = TimeInterval(req->interval());
       time_t weight = T1.overlapTime(T2);
@@ -716,7 +706,7 @@ inline int TimeList::generalsecondsselector(Requestor *req,
         this->inputFrequency == std::string("seconds=1800")))
     return TIME_ERR;
 
-  for (int ii = 0; ii < this->nTimes; ++ii) {
+  for (int ii = 0; ii < static_cast<int>(this->nTimes); ++ii) {
     if (req->contains(this->TOL[ii])) {
       selection.push_back(ii);
       weights.push_back(1.);
@@ -742,7 +732,7 @@ inline int TimeList::generalhourselector(Requestor *req,
         this->inputFrequency != std::string("hourly")))
     return TIME_ERR;
 
-  for (int ii = 0; ii < this->nTimes; ++ii) {
+  for (int ii = 0; ii < static_cast<int>(this->nTimes); ++ii) {
     if (req->contains(this->TOL[ii])) {
       selection.push_back(ii);
       weights.push_back(1.);
@@ -771,7 +761,7 @@ inline int TimeList::generaldayselector(Requestor *req,
             std::string("daily")))  // it does not matter how many hours
     return TIME_ERR;
 
-  for (int ii = 0; ii < this->nTimes; ++ii) {
+  for (int ii = 0; ii < static_cast<int>(this->nTimes); ++ii) {
     if (req->contains(this->TOL[ii])) {
       selection.push_back(ii);
       weights.push_back(1.);
@@ -795,7 +785,7 @@ inline int TimeList::generalweekselector(Requestor *req,
   // Only works with daily data
   if (this->inputFrequency != std::string("daily")) return TIME_ERR;
 
-  for (int ii = 0; ii < this->nTimes; ++ii) {
+  for (int ii = 0; ii < static_cast<int>(this->nTimes); ++ii) {
     if (req->contains(this->TOL[ii])) {
       selection.push_back(ii);
       weights.push_back(1.);
@@ -820,7 +810,7 @@ inline int TimeList::generalmonthselector(Requestor *req,
       this->inputFrequency == std::string("seconds=1800") ||
       this->inputFrequency == std::string("daily") ||
       this->inputFrequency == std::string("hourly")) {
-    for (int ii = 0; ii < this->nTimes; ++ii) {
+    for (int ii = 0; ii < static_cast<int>(this->nTimes); ++ii) {
       if (req->contains(this->TOL[ii])) {
         selection.push_back(ii);
         weights.push_back(1.);
@@ -829,7 +819,7 @@ inline int TimeList::generalmonthselector(Requestor *req,
     return TIME_OK;
   }
   if (this->inputFrequency == std::string("weekly")) {
-    for (int ii = 0; ii < this->nTimes; ++ii) {
+    for (int ii = 0; ii < static_cast<int>(this->nTimes); ++ii) {
       TimeInterval T1 = computeTimeWindow(this->inputFrequency, this->TOL[ii]);
       TimeInterval T2 = TimeInterval(req->interval());
       time_t weight = T1.overlapTime(T2);
@@ -841,7 +831,7 @@ inline int TimeList::generalmonthselector(Requestor *req,
     return TIME_OK;
   }
   if (this->inputFrequency.substr(0, 5) == std::string("days=")) {
-    for (int ii = 0; ii < this->nTimes; ++ii) {
+    for (int ii = 0; ii < static_cast<int>(this->nTimes); ++ii) {
       TimeInterval T1 = computeTimeWindow(this->inputFrequency, this->TOL[ii]);
       TimeInterval T2 = TimeInterval(req->interval());
       time_t weight = T1.overlapTime(T2);
@@ -854,7 +844,7 @@ inline int TimeList::generalmonthselector(Requestor *req,
   }
   if (this->inputFrequency == std::string("monthly")) {
     // No time aggregation
-    for (int ii = 0; ii < this->nTimes; ++ii) {
+    for (int ii = 0; ii < static_cast<int>(this->nTimes); ++ii) {
       if (req->contains(this->TOL[ii])) {
         selection.push_back(ii);
         weights.push_back(1.);
@@ -870,7 +860,7 @@ inline int TimeList::generalclimseasonselector(Requestor *req,
                                                std::vector<double> &weights) {
   // Separate by input frequency
   if (this->inputFrequency == std::string("daily")) {
-    for (int ii = 0; ii < this->nTimes; ++ii) {
+    for (int ii = 0; ii < static_cast<int>(this->nTimes); ++ii) {
       if (req->contains(this->TOL[ii])) {
         selection.push_back(ii);
         weights.push_back(1.);
@@ -882,7 +872,7 @@ inline int TimeList::generalclimseasonselector(Requestor *req,
       this->inputFrequency == std::string("monthly") ||
       this->inputFrequency == std::string("yearly") ||
       this->inputFrequency == std::string("10days")) {
-    for (int ii = 0; ii < this->nTimes; ++ii) {
+    for (int ii = 0; ii < static_cast<int>(this->nTimes); ++ii) {
       TimeInterval T1 = computeTimeWindow(this->inputFrequency, this->TOL[ii]);
       TimeInterval T2 = TimeInterval(req->interval());
       int ref_year =
@@ -919,11 +909,11 @@ inline int TimeList::generalclimmonthselector(Requestor *req,
   int month = std::stoi(req->interval().get_start_time().as_string("%m"));
 
   REQ_LIST yearlist = this->getYearlist();
-  for (int ii = 0; ii < yearlist.size(); ++ii) {
+  for (unsigned int ii = 0; ii < yearlist.size(); ++ii) {
     int year =
         std::stoi(yearlist[ii]->interval().get_start_time().as_string("%Y"));
-    Monthly_req req(year, month);
-    if (this->select(&req, selection, weights) == TIME_ERR) {
+    Monthly_req new_req(year, month);
+    if (this->select(&new_req, selection, weights) == TIME_ERR) {
       deallocList(yearlist);
       return TIME_ERR;
     }
@@ -954,13 +944,13 @@ inline COUPLED_LIST TimeList::couple(TimeObjectList &datetimelist) {
   COUPLED_LIST coupled_list;
 
   REQ_LIST req_list = this->getOwnList();
-  for (int ii = 0; ii < req_list.size(); ++ii) {
+  for (unsigned int ii = 0; ii < req_list.size(); ++ii) {
     std::vector<int> list_of_ind;
-    for (int jj = 0; jj < datetimelist.len(); ++jj) {
+    for (unsigned int jj = 0; jj < datetimelist.len(); ++jj) {
       if (req_list[ii]->contains(datetimelist[ii])) list_of_ind.push_back(jj);
     }
-    if (list_of_ind.size() > 0)
-      coupled_list.push_back(std::make_pair(this->TOL[ii], list_of_ind));
+    if (!list_of_ind.empty())
+      coupled_list.emplace_back(this->TOL[ii], list_of_ind);
   }
 
   deallocList(req_list);

@@ -1,0 +1,5 @@
+NAME
+  OGS::OGSTimeStatsClimatology
+DEPENDS
+  VTK::CommonDataModel
+  VTK::CommonExecutionModel

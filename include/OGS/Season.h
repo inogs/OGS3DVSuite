@@ -65,10 +65,10 @@ class Season {
     return this->numbers_season;
   }
 
-  inline TimeInterval get_season_dates(int season_num,
-                                       std::string &season_name);
+  TimeInterval get_season_dates(unsigned int season_num,
+                                std::string &season_name);
 
-  inline int find_season(const TimeObject &TO);
+  int find_season(const TimeObject &TO);
 
  private:
   unsigned int numbers_season;
@@ -144,7 +144,7 @@ spring to 21 march, summer to 22 june and fall on 21 september.
                             "%Y%m%d-%H:%M:%S");
   this->SEASON_LIST_NAME.insert(this->SEASON_LIST_NAME.begin(), name_season[0]);
 
-  for (int ii = 1; ii < this->numbers_season; ++ii) {
+  for (unsigned int ii = 1; ii < this->numbers_season; ++ii) {
     ref_year = this->reference_year;
     time_str =
         std::to_string(ref_year) + start_season[ii] + std::string("-00:00:00");
@@ -157,7 +157,7 @@ spring to 21 march, summer to 22 june and fall on 21 september.
 
 
 
-inline TimeInterval Season::get_season_dates(const int season_num,
+inline TimeInterval Season::get_season_dates(const unsigned int season_num,
                                              std::string &season_name) {
   /*
   Given Season number, return the range of Season dates (start and end)
@@ -192,15 +192,15 @@ inline int Season::find_season(const TimeObject &TO) {
   int delta_year = this->reference_year - std::stoi(aux.as_string("%Y"));
 
   aux.increment_year(delta_year);
-  for (int ii = 0; ii < this->numbers_season; ++ii) {
+  for (unsigned int ii = 0; ii < this->numbers_season; ++ii) {
     TI = this->get_season_dates(ii, season_name);
-    if (TI.contains(aux)) return ii;
+    if (TI.contains(aux)) return static_cast<int>(ii);
   }
 
   aux.decrement_year(1);
-  for (int ii = 0; ii < this->numbers_season; ++ii) {
+  for (unsigned int ii = 0; ii < this->numbers_season; ++ii) {
     TI = this->get_season_dates(ii, season_name);
-    if (TI.contains(aux)) return ii;
+    if (TI.contains(aux)) return static_cast<int>(ii);
   }
   return -1;
 }

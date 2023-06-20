@@ -27,14 +27,15 @@ namespace OGS::Time {
 class Requestor {
   /*
   Generic requestor (base class)
-  Based on timeinterval object, for non standard times.
-  For example, an year defined between
+  Based on timeinterval object, for non-standard times.
+  For example, a year defined between
   */
  public:
-  inline Requestor() = default;
+  Requestor() = default;
   inline explicit Requestor(const TimeInterval &TI_,
                             const char *fmt = "%Y%m%d-%H:%M:%S")
       : TI(TI_), request_str(TI_.as_string(fmt)) {}
+  virtual ~Requestor() = default;
   [[nodiscard]] virtual inline std::string as_string() const {
     return (std::string("Req: ") + this->request_str);
   }
@@ -331,7 +332,7 @@ class Clim_season : public Requestor {
   method.
   */
  public:
-  inline Clim_season(const int iseason, Season &s_obj) : Requestor() {
+  inline Clim_season(const unsigned int iseason, Season &s_obj) : Requestor() {
     /*
     Arguments:
             * season    * : integer
