@@ -24,7 +24,7 @@ All rights reserved.
 #include "TimeList.h"
 
 namespace OGS::utilities {
-void strsplit(std::string str, std::string splitBy,
+void strsplit(const std::string &str, const std::string &splitBy,
               std::vector<std::string> &tokens);
 
 void BuildTimeList(OGS::Time::TimeList &TL, vtkInformation *Info);

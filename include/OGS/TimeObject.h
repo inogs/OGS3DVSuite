@@ -193,9 +193,9 @@ class TimeObjectList {
     if (this->alloc) std::sort(begin(), end());
   }
 
-  int find(const TimeObject &TO);
+  inline int find(const TimeObject &TO);
 
-  TimeObjectList merge(TimeObjectList &TOLi, bool exact);
+  inline TimeObjectList merge(TimeObjectList &TOLi, bool exact);
 
   inline TimeObject operator[](int i) const {
     return (i >= 0) ? TOList[i] : TOList[n + i];
@@ -324,7 +324,7 @@ class TimeObjectList {
 };
 
 
-TimeObjectList::TimeObjectList(const TimeObject &start, const TimeObject &end,
+inline TimeObjectList::TimeObjectList(const TimeObject &start, const TimeObject &end,
                                const char *delta) {
   /*
           Given a start and an end point, construct a time object list spaced

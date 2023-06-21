@@ -1,0 +1,9 @@
+NAME
+  OGSTimeStatsPlugin
+DESCRIPTION
+  Plugin to compute time statistics
+REQUIRES_MODULES
+  OGSTimeStatsAggregator
+  OGSTimeStatsAverage
+  OGSTimeStatsClimatology
+

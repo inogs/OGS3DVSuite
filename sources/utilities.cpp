@@ -6,8 +6,9 @@
 
 #include <chrono>
 
-void strsplit(const std::string &str, const std::string &splitBy,
-              std::vector<std::string> &tokens) {
+void OGS::utilities::strsplit(const std::string &str,
+                              const std::string &splitBy,
+                              std::vector<std::string> &tokens) {
   // Store the original string in the array, so we can loop the rest of the
   // algorithm.
   tokens.push_back(str);
@@ -39,7 +40,8 @@ void strsplit(const std::string &str, const std::string &splitBy,
 }
 
 
-void BuildTimeList(OGS::Time::TimeList &TL, vtkInformation *Info) {
+void OGS::utilities::BuildTimeList(OGS::Time::TimeList &TL,
+                                   vtkInformation *Info) {
   // Build a TimeList object using the pipeline temporal data.
   // This TimeList will be later used for computing the averages
   // given a TimeRequestor. The metadata array might not be available
@@ -77,7 +79,8 @@ void BuildTimeList(OGS::Time::TimeList &TL, vtkInformation *Info) {
 }
 
 
-void RecoverMasterFileName(std::string &fname, vtkDataSet *input) {
+void OGS::utilities::RecoverMasterFileName(std::string &fname,
+                                           vtkDataSet *input) {
   // Recover the master file name from the metadata array
   // Return whether we need to stop executing or not
 
