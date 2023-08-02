@@ -21,9 +21,7 @@
 #include "vtkSMPythonViewProxy.h"
 
 class vtkImageData;
-class vtkRenderer;
 class vtkSMProxy;
-class vtkSMViewProxyInteractorHelper;
 
 class OGSMapPlotProxy : public vtkSMPythonViewProxy {
  public:

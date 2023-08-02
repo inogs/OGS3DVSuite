@@ -40,17 +40,14 @@ void OGSVerticalProfilePlot::Update() {
   this->Superclass::EnableAllAttributeArrays();
   // First we iterate over the parameters map to create the variable = value
   // pairs
-  char aux1[2048];
-  strcpy(aux1, "");
-  std::map<std::string, std::string>::iterator it;
-  for (it = this->mapParam.begin(); it != mapParam.end(); it++)
-    sprintf(aux1, "%s%s = %s\n", aux1, it->first.c_str(), it->second.c_str());
-  // Second we create an auxiliary string where to store the plot variables
-  char aux2[512];
-  sprintf(aux2, "variables = '''%s'''", this->Variables);
-  // We prepend both strings to the python script
   std::ostringstream buf;
-  buf << aux1 << "\n" << aux2 << "\n" << this->Script;
+  for (auto it = this->mapParam.begin(); it != mapParam.end(); it++)
+    buf << it->first << " = " << it->second << "\n";
+
+  buf << "\nvariables = '''" << this->Variables << "'''\n";
+
+  buf << this->Script;
+
   // Update the Script property of the Superclass with the newly generated
   // script
   this->Superclass::SetScript(buf.str().c_str());
