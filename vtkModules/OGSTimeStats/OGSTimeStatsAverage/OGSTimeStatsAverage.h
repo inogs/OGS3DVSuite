@@ -73,8 +73,8 @@ class VTK_EXPORT OGSTimeStatsAverage : public vtkDataSetAlgorithm {
   int PipelineIterationAlgorithm(vtkInformation *, vtkDataSet *, vtkDataSet *);
   int FileIterationAlgorithm(vtkInformation *, vtkDataSet *, vtkDataSet *);
 
-  OGS::Time::TimeInterval TI;   // TimeInterval for the generic requestor
-  OGS::Time::TimeList TL;       // TimeList containing all the instants
+  OGS::Time::TimeInterval TI;  // TimeInterval for the generic requestor
+  OGS::Time::TimeList TL;      // TimeList containing all the instants
 
   std::vector<int> instants;    // Instant ID to loop
   std::vector<double> weights;  // Weights for the instants

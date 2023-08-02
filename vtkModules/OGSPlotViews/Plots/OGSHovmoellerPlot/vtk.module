@@ -1,0 +1,5 @@
+NAME
+  OGS::OGSHovmoellerPlot
+DEPENDS
+  ParaView::RemotingCore
+  ParaView::RemotingViews

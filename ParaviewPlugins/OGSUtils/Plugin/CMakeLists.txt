@@ -3,7 +3,7 @@ paraview_add_plugin(OGSUtilsPlugin
         REQUIRED_ON_SERVER
         SERVER_MANAGER_XML OGSUtils.xml
         MODULES OGS::OGSUtils
-        )
+)
 
 
 target_link_libraries(OGSUtilsPlugin PRIVATE OGS::OGS3DVSuite OGS::OGSUtils)

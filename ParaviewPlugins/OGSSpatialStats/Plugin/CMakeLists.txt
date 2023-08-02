@@ -3,7 +3,7 @@ paraview_add_plugin(OGSSpatialStatsPlugin
         REQUIRED_ON_SERVER
         SERVER_MANAGER_XML OGSSpatialStats.xml
         MODULES OGS::OGSSpatialStats
-        )
+)
 
 
 target_link_libraries(OGSSpatialStatsPlugin PRIVATE OGS::OGS3DVSuite OGS::OGSSpatialStats)

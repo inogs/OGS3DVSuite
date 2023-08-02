@@ -8,7 +8,7 @@ paraview_add_plugin(OGSTimeStatsPlugin
         REQUIRED_ON_SERVER
         SERVER_MANAGER_XML OGSTimeStats.xml
         MODULES ${REQUIRED_MODULES}
-        )
+)
 
 
 target_link_libraries(OGSTimeStatsPlugin PRIVATE OGS::OGS3DVSuite ${REQUIRED_MODULES})

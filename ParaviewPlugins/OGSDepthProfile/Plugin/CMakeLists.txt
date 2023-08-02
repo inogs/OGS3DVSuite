@@ -3,7 +3,7 @@ paraview_add_plugin(OGSDepthProfilePlugin
         REQUIRED_ON_SERVER
         SERVER_MANAGER_XML OGSDepthProfile.xml
         MODULES OGS::OGSDepthProfile
-        )
+)
 
 
 target_link_libraries(OGSDepthProfilePlugin PRIVATE OGS::OGS3DVSuite OGS::OGSDepthProfile)

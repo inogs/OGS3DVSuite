@@ -324,8 +324,9 @@ class TimeObjectList {
 };
 
 
-inline TimeObjectList::TimeObjectList(const TimeObject &start, const TimeObject &end,
-                               const char *delta) {
+inline TimeObjectList::TimeObjectList(const TimeObject &start,
+                                      const TimeObject &end,
+                                      const char *delta) {
   /*
           Given a start and an end point, construct a time object list spaced
      every delta. Options for delta are: > "secs   = x" : every x seconds; >

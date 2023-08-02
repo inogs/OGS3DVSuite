@@ -11,7 +11,7 @@ paraview_add_plugin(OGSSelectToolsPlugin
         REQUIRED_ON_SERVER
         SERVER_MANAGER_XML OGSSelectTools.xml
         MODULES ${REQUIRED_MODULES}
-        )
+)
 
 
 target_link_libraries(OGSSelectToolsPlugin PUBLIC OGS::OGS3DVSuite ${REQUIRED_MODULES})

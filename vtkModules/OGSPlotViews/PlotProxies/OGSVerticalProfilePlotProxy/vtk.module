@@ -1,0 +1,5 @@
+NAME
+  OGS::OGSVerticalProfilePlotProxy
+DEPENDS
+  ParaView::RemotingCore
+  ParaView::RemotingViews

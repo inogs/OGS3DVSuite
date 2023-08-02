@@ -109,7 +109,7 @@ class VTKCOMMONEXECUTIONMODEL_EXPORT OGSSpatialStats
   OGS::V3::V3v xyz;                // Stores cell/point coordinates
   OGS::field::Field<int> cId2zId;  // Cell to depth level connectivity
 
-  bool isReqInfo, changing_mesh;   // Set true when request information
+  bool isReqInfo, changing_mesh;  // Set true when request information
   int useVolume;  // Use the volume as weight instead of the area
 };
 

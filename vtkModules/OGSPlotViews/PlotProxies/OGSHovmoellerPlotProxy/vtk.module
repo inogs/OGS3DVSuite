@@ -1,0 +1,5 @@
+NAME
+  OGS::OGSHovmoellerPlotProxy
+DEPENDS
+  ParaView::RemotingCore
+  ParaView::RemotingViews

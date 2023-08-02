@@ -1,0 +1,5 @@
+NAME
+  OGS::OGSMapPlotProxy
+DEPENDS
+  ParaView::RemotingCore
+  ParaView::RemotingViews

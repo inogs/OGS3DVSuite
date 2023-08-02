@@ -1,0 +1,5 @@
+NAME
+  OGS::OGSSpaghettiPlot
+DEPENDS
+  ParaView::RemotingCore
+  ParaView::RemotingViews

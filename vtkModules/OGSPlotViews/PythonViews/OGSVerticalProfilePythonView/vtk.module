@@ -1,0 +1,4 @@
+NAME
+  OGS::OGSVerticalProfilePythonView
+DEPENDS
+  ParaView::pqCore

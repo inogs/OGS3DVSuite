@@ -4,7 +4,7 @@ project(OGS3DVSuite
         VERSION 0.9
         DESCRIPTION "Utilities for postprocessing of scientific models"
         LANGUAGES C CXX
-        )
+)
 
 set(CMAKE_CXX_STANDARD 17)
 # There is hardly any good reason for ony enabling -fPIC; moreover,
@@ -36,8 +36,7 @@ add_library(OGS3DVSuite SHARED
 set_target_properties(OGS3DVSuite PROPERTIES
         CXX_STANDARD 17
         CXX_STANDARD_REQUIRED YES
-        CXX_EXTENSIONS NO
-        )
+        CXX_EXTENSIONS NO)
 
 
 option(WITH_TESTS "Compile the tests for the library" OFF)
@@ -181,6 +180,25 @@ write_basic_package_version_file(OGS3DVSuiteConfigVersion.cmake
         VERSION ${PACKAGE_VERSION}
         COMPATIBILITY AnyNewerVersion)
 
+SET(PythonViewModules
+        OGSHovmoellerPythonView
+        OGSMapPythonView
+        OGSSpaghettiPythonView
+        OGSVerticalProfilePythonView)
+
+SET(PythonPlotModules
+        OGSHovmoellerPlot
+        OGSMapPlot
+        OGSSpaghettiPlot
+        OGSVerticalProfilePlot)
+
+SET(PlotProxyModules
+        OGSHovmoellerPlotProxy
+        OGSMapPlotProxy
+        OGSSpaghettiPlotProxy
+        OGSVerticalProfilePlotProxy)
+
+
 SET(_targets OGS3DVSuite)
 if (WITH_VTK_MODULES)
     SET(_targets ${_targets} OGSReader)
@@ -195,6 +213,9 @@ if (WITH_VTK_MODULES)
     SET(_targets ${_targets} OGSTimeStatsAggregator)
     SET(_targets ${_targets} OGSTimeStatsAverage)
     SET(_targets ${_targets} OGSTimeStatsClimatology)
+    SET(_targets ${_targets} ${PythonPlotModules})
+    SET(_targets ${_targets} ${PlotProxyModules})
+    SET(_targets ${_targets} ${PythonViewModules})
     SET(_targets ${_targets} OGSUtils)
     if (WITH_PARAVIEW_PLUGINS)
         SET(_targets ${_targets} OGSAnnotateDateTime)

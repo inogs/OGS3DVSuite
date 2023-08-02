@@ -34,13 +34,13 @@ Field<T> operator/(T v, const Field<T> &ff);
 
 template <class T>
 class Field {
-  friend Field<T> operator+<>(T v, const Field<T> &ff);
+  friend Field<T> operator+ <>(T v, const Field<T> &ff);
 
-  friend Field<T> operator-<>(T v, const Field<T> &ff);
+  friend Field<T> operator- <>(T v, const Field<T> &ff);
 
-  friend Field<T> operator*<>(T v, const Field<T> &ff);
+  friend Field<T> operator* <>(T v, const Field<T> &ff);
 
-  friend Field<T> operator/<>(T v, const Field<T> &ff);
+  friend Field<T> operator/ <>(T v, const Field<T> &ff);
 
  public:
   // Constructors and destructors

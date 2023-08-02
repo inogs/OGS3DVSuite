@@ -3,7 +3,7 @@ paraview_add_plugin(OGSAnnotateDateTimePlugin
         REQUIRED_ON_SERVER
         SERVER_MANAGER_XML OGSAnnotateDateTime.xml
         MODULES OGS::OGSAnnotateDateTime
-        )
+)
 
 
 target_link_libraries(OGSAnnotateDateTimePlugin PRIVATE OGS::OGSAnnotateDateTime)
