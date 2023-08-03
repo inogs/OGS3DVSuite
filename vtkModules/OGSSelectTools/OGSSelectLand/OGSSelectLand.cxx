@@ -100,9 +100,8 @@ int OGSSelectLand::RequestData(vtkInformation *vtkNotUsed(request),
 
   this->UpdateProgress(0.4);
 
-  // Force ThresholdBetween to obtain values that are greater than 0
-  this->SetThresholdFunction(vtkThreshold::THRESHOLD_LOWER);
-  this->SetLowerThreshold(0.5);
+  this->SetThresholdFunction(vtkThreshold::THRESHOLD_UPPER);
+  this->SetUpperThreshold(0.5);
 
   this->UpdateProgress(0.6);
 
