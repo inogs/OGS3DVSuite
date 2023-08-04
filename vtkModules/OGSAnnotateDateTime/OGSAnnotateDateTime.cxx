@@ -45,8 +45,13 @@ int OGSAnnotateDateTime::RequestData(vtkInformation* request,
 
   // Decide how to write the time, whether to use metadata or to use a
   // conversion from the timestep to a string format
-  struct tm tm = {0};
-  char buff[256];
+  struct tm current_tm = {0};
+  std::ostringstream buf;
+
+  // Ensure that we are working in UTC (but probably this does not make any
+  // difference)
+  auto current_locale_time = setlocale(LC_TIME, nullptr);
+  setlocale(LC_TIME, "C");
 
   if (this->useMetadata) {
     vtkDataSet* input =
@@ -59,9 +64,10 @@ int OGSAnnotateDateTime::RequestData(vtkInformation* request,
     // If successful, modify the entry by parsing the string
     // using the time library
     if (vtkmetadata) {
-      strptime(vtkmetadata->GetValue(0).c_str(), "%Y%m%d-%H:%M:%S", &tm);
-      strftime(buff, 256, this->TimeFormat, &tm);
-      this->Superclass::SetFormat(buff);
+      strptime((vtkmetadata->GetValue(0)).c_str(), "%Y%m%d-%H:%M:%S",
+               &current_tm);
+      buf << std::put_time(&current_tm, this->TimeFormat);
+      this->Superclass::SetFormat(buf.str().c_str());
     }
   } else {
     // Recover the current timestep
@@ -73,11 +79,11 @@ int OGSAnnotateDateTime::RequestData(vtkInformation* request,
         std::chrono::system_clock::time_point(
             std::chrono::duration_cast<std::chrono::seconds>(
                 std::chrono::duration<double>(requestedTimeValue))));
-    tm = *localtime(&time);
+    current_tm = *gmtime(&time);
 
     // Format and display
-    strftime(buff, 256, this->TimeFormat, &tm);
-    this->Superclass::SetFormat(buff);
+    buf << std::put_time(&current_tm, this->TimeFormat);
+    this->Superclass::SetFormat(buf.str().c_str());
   }
 
   // Run RequestData from vtkTimeToTextConvertor

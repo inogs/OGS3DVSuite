@@ -15,7 +15,6 @@
 #include "OGSReader.h"
 
 #include <algorithm>
-#include <cstdint>
 #include <ctime>
 
 #include "vtkCallbackCommand.h"
@@ -317,9 +316,10 @@ int OGSReader::RequestInformation(
   auto *timeSteps = new double[this->ogsdata->ntsteps()];
   for (int ii = 0; ii < this->ogsdata->ntsteps(); ii++) {
     struct tm tm = {0};
+    tm.tm_isdst = 0;
     // Convert to struct tm
-    strptime(this->ogsdata->datetime(ii).c_str(), "%Y%m%d-%H:%M:%S", &tm);
-    timeSteps[ii] = difftime(mktime(&tm), 0);
+    strptime((this->ogsdata->datetime(ii)).c_str(), "%Y%m%d-%H:%M:%S", &tm);
+    timeSteps[ii] = difftime(timegm(&tm), 0);
   }
   outInfo->Set(vtkStreamingDemandDrivenPipeline::TIME_STEPS(), &timeSteps[0],
                (int)this->ogsdata->ntsteps());
