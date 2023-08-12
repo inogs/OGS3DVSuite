@@ -180,48 +180,10 @@ write_basic_package_version_file(OGS3DVSuiteConfigVersion.cmake
         VERSION ${PACKAGE_VERSION}
         COMPATIBILITY AnyNewerVersion)
 
-SET(PythonViewModules
-        OGSHovmoellerPythonView
-        OGSMapPythonView
-        OGSSpaghettiPythonView
-        OGSVerticalProfilePythonView)
-
-SET(PythonPlotModules
-        OGSHovmoellerPlot
-        OGSMapPlot
-        OGSSpaghettiPlot
-        OGSVerticalProfilePlot)
-
-SET(PlotProxyModules
-        OGSHovmoellerPlotProxy
-        OGSMapPlotProxy
-        OGSSpaghettiPlotProxy
-        OGSVerticalProfilePlotProxy)
-
 
 SET(_targets OGS3DVSuite)
-if (WITH_VTK_MODULES)
-    SET(_targets ${_targets} OGSReader)
-    SET(_targets ${_targets} OGSSelectBasin)
-    SET(_targets ${_targets} OGSSelectCoast)
-    SET(_targets ${_targets} OGSSelectLand)
-    SET(_targets ${_targets} OGSSelectOkuboWeiss)
-    SET(_targets ${_targets} OGSSelectPolygon)
-    SET(_targets ${_targets} OGSSelectTimePeriod)
-    SET(_targets ${_targets} OGSDepthProfile)
-    SET(_targets ${_targets} OGSSpatialStats)
-    SET(_targets ${_targets} OGSTimeStatsAggregator)
-    SET(_targets ${_targets} OGSTimeStatsAverage)
-    SET(_targets ${_targets} OGSTimeStatsClimatology)
-    SET(_targets ${_targets} ${PythonPlotModules})
-    SET(_targets ${_targets} ${PlotProxyModules})
-    SET(_targets ${_targets} ${PythonViewModules})
-    SET(_targets ${_targets} OGSUtils)
-    if (WITH_PARAVIEW_PLUGINS)
-        SET(_targets ${_targets} OGSAnnotateDateTime)
-    endif ()
-    SET(_targets ${_targets} OGSSpaghetti)
-endif ()
+SET(_targets ${_targets} ${OGS3DVSuiteModules})
+
 
 install(TARGETS ${_targets}
         EXPORT OGS3DVSuiteTargets
